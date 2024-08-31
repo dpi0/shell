@@ -92,7 +92,7 @@ fi
 
 # Install Aops
 packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
-packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu nvim zip unzip)
+packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat nvim zip unzip)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do
@@ -102,6 +102,11 @@ if [ "$OS" == "Ubuntu" ]; then
     # Check for fdfind or fd
     if ! command -v fdfind &> /dev/null && ! command -v fd &> /dev/null; then
         install_package "fd-find"
+    fi
+
+    # Check for batcat or bat
+    if ! command -v batcat &> /dev/null && ! command -v bat &> /dev/null; then
+        install_package "bat"
     fi
 
     # Check for nvim
@@ -132,6 +137,14 @@ if ! command -v fd &> /dev/null && [ "$OS" != "Arch Linux" ]; then
   echo -e "${GREEN}Symlink created successfully!${RESET}"
 else
   echo -e "${YELLOW}fd already installed or Arch Linux system, skipping...${RESET}"
+fi
+
+if ! command -v bat &> /dev/null && [ "$OS" != "Arch Linux" ]; then
+  echo -e "${YELLOW}bat not found. Creating symlink for bat...${RESET}"
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+  echo -e "${GREEN}Symlink created successfully!${RESET}"
+else
+  echo -e "${YELLOW}bat already installed or Arch Linux system, skipping...${RESET}"
 fi
 
 echo -e "${GREEN}Utilities installed!${RESET}"
