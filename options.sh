@@ -13,7 +13,16 @@ setopt APPENDHISTORY # ensures that each command entered in the current session 
 
 setopt autocd
 
-PIPENV_VENV_IN_PROJECT=0
+autoload -Uz compinit && compinit
+
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+export CONFIG="$HOME/.config"
+export SCRIPTS="$ZSHROOT/scripts"
+export LOCALBIN="$HOME/.local/bin"
+export EDITOR="/usr/bin/vim"
+export GPG_TTY=$(tty)
+export PIPENV_VENV_IN_PROJECT=0
 
 if command -v go &> /dev/null; then
   export PATH=$PATH:$(go env GOPATH)/bin
@@ -23,21 +32,8 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh --cmd j)"
 fi
 
-export CONFIG="$HOME/.config"
-export SCRIPTS="$ZSHROOT/scripts"
-export LOCALBIN="$HOME/.local/bin"
-
-export EDITOR="/usr/bin/vim"
-
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.cargo/bin"
-
-export GPG_TTY=$(tty)
-
 # load the environment variables from the .env file
 # export $(grep -v '^#' ~/.dotfiles/.env | xargs)
-
-autoload -Uz compinit && compinit
 
 # --- FZF ---
 # export FZF_DEFAULT_COMMAND="fd --type f"
