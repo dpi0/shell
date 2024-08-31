@@ -106,26 +106,6 @@ in() {
 	paru -Slq | fzf -q "$1" -m --preview 'paru -Si {1}' | xargs -ro paru -S
 }
 
-
-paste() {
-  local file="$1"
-  local extension="${file##*.}"
-  
-  # Generate the URL
-  local url=$(jq -Rns '{text: inputs}' < "$file" | \
-    curl -s -H 'Content-Type: application/json' --data-binary @- https://bin.bloerg.net | \
-    jq -r --arg ext "$extension" '. | "https://bin.bloerg.net\(.path).\($ext)"')
-  
-  # Copy URL to clipboard
-  echo "$url" | wl-copy
-  
-  # Show notification
-  dunstify "URL copied to clipboard" "$url"
-  
-  # Output URL to terminal
-  echo "$url"
-}
-
 extract() {
   if [ -f "$1" ]; then
     local target_dir="${2:-.}"

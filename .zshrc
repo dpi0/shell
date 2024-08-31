@@ -4,6 +4,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export ZSHROOT="$HOME/zsh"
+export DOTFILES="$HOME/.dotfiles"
 
 source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 source $ZSHROOT/options.sh
