@@ -194,5 +194,5 @@ echo -e "${CYAN}Start new zsh session? (y/n)${RESET}"
 read -r response
 if [[ $response =~ ^[Yy]$ ]]; then
   echo -e "${GREEN}Starting new zsh session...${RESET}"
-  exec zsh
+  exec zsh -l
 fi
