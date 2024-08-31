@@ -184,7 +184,7 @@ fi
 
 if [ "$SHELL" != "/sbin/zsh" ] && [ "$SHELL" != "/bin/zsh" ] && [ "$SHELL" != "/usr/sbin/zsh" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
   echo -e "${YELLOW}Changing default shell to zsh...${RESET}"
-  sudo chsh -s /usr/bin/zsh $USER
+  sudo usermod -s /usr/bin/zsh $USER
   echo -e "${GREEN}Default shell changed to zsh successfully!${RESET}"
 else
   echo -e "${YELLOW}zsh is already the default shell, Skipping...${RESET}"
