@@ -195,7 +195,4 @@ read -r response
 if [[ $response =~ ^[Yy]$ ]]; then
   echo -e "${GREEN}Starting new zsh session...${RESET}"
   exec zsh
-else
-  echo -e "${RED}Exiting...${RESET}"
-  exit 0
 fi
