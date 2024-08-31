@@ -1,19 +1,29 @@
-copydir(){
-	print -n $PWD | wl-copy
+copydir() {
+    # Check if wl-copy is installed
+    if command -v wl-copy &> /dev/null; then
+        print -n $PWD | wl-copy
+    else
+        echo "wl-copy is not installed. Cannot copy current directory."
+    fi
 }
 
-copylastcommand(){
-	fc -ln -1 | tr -d '\n' | wl-copy
+copylastcommand() {
+    # Check if wl-copy is installed
+    if command -v wl-copy &> /dev/null; then
+        fc -ln -1 | tr -d '\n' | wl-copy
+    else
+        echo "wl-copy is not installed. Cannot copy last command."
+    fi
 }
 
 copybuffer() {
-	if command -v wl-copy &>/dev/null; then
-		echo "$BUFFER" | wl-copy
-	else
-		echo "Error! Couldn't copy current line. wl-copy not present"
-	fi
+    # You've already implemented the check here!
+    if command -v wl-copy &>/dev/null; then
+        echo "$BUFFER" | wl-copy
+    else
+        echo "Error! Couldn't copy current line. wl-copy not present"
+    fi
 }
-
 speedtest(){
 	curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
 }
@@ -61,9 +71,14 @@ f() {
 				;;
 		esac
 
-	# Print the selected file value to stdout
-	echo "$SELECTED_FILE" | wl-copy
-	echo "$SELECTED_FILE"
+        # Check if wl-copy is installed
+        if command -v wl-copy &> /dev/null; then
+            # Print the selected file value to clipboard
+            echo "$SELECTED_FILE" | wl-copy
+        fi
+
+        # Print the selected file value to stdout
+        echo "$SELECTED_FILE"
 	fi
 }
 
@@ -89,8 +104,14 @@ ff() {
 }
 
 fh() {
-	selected_command=$(history -E 1 | sort -k1,1nr | fzf | awk '{$1=""; $2=""; $3=""; print $0}' | sed 's/^[ \t]*//')
-	echo "$selected_command" | wl-copy
+    selected_command=$(history -E 1 | sort -k1,1nr | fzf | awk '{$1=""; $2=""; $3=""; print $0}' | sed 's/^[ \t]*//')
+    
+    # Check if wl-copy is installed
+    if command -v wl-copy &> /dev/null; then
+        echo "$selected_command" | wl-copy
+    else
+        echo "wl-copy is not installed. Cannot copy to clipboard."
+    fi
 }
 
 finh() {
