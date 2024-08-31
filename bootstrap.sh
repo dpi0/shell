@@ -91,13 +91,24 @@ else
 fi
 
 # Install Aops
-packages_apt=(zsh tmux git gpg btop eza fzf fd-find gdu neovim zip unzip)
+packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
 packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu nvim zip unzip)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do
         install_package "$package"
     done
+    
+    # Check for fdfind or fd
+    if ! command -v fdfind &> /dev/null && ! command -v fd &> /dev/null; then
+        install_package "fd-find"
+    fi
+
+    # Check for nvim
+    if ! command -v nvim &> /dev/null; then
+        install_package "neovim"
+    fi
+    
 elif [ "$OS" == "Arch Linux" ]; then
     for package in "${packages_pacman[@]}"; do
         install_package "$package"
