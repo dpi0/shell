@@ -15,9 +15,13 @@ setopt autocd
 
 PIPENV_VENV_IN_PROJECT=0
 
-export PATH=$PATH:$(go env GOPATH)/bin
+if command -v go &> /dev/null; then
+  export PATH=$PATH:$(go env GOPATH)/bin
+fi
 
-eval "$(zoxide init zsh --cmd j)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh --cmd j)"
+fi
 
 export CONFIG="$HOME/.config"
 export SCRIPTS="$ZSHROOT/scripts"
