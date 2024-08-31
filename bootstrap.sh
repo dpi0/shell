@@ -104,15 +104,24 @@ elif [ "$OS" == "Arch Linux" ]; then
     done
 fi
 
-echo -e "${YELLOW}Installing zoxide...${RESET}"
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-echo -e "${GREEN}zoxide installed successfully!${RESET}"
+if ! command -v zoxide &> /dev/null && [ "$OS" != "Arch Linux" ]; then
+  echo -e "${YELLOW}zoxide not found. Installing...${RESET}"
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  echo -e "${GREEN}zoxide installed successfully!${RESET}"
+else
+  echo -e "${YELLOW}zoxide already installed or Arch Linux system, skipping...${RESET}"
+fi
 
 echo -e "${YELLOW}Creating ~/.local/bin directory...${RESET}"
 mkdir -p $HOME/.local/bin
 
-echo -e "${YELLOW}Creating symlink for fdfind...${RESET}"
-ln -s $(which fdfind) ~/.local/bin/fd
+if ! command -v fd &> /dev/null && [ "$OS" != "Arch Linux" ]; then
+  echo -e "${YELLOW}fd not found. Creating symlink for fdfind...${RESET}"
+  ln -s $(which fdfind) ~/.local/bin/fd
+  echo -e "${GREEN}Symlink created successfully!${RESET}"
+else
+  echo -e "${YELLOW}fd already installed or Arch Linux system, skipping...${RESET}"
+fi
 
 echo -e "${GREEN}Utilities installed!${RESET}"
 
