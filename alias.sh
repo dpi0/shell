@@ -13,6 +13,9 @@ alias rec='asciinema rec'
 # remove all dir and all it's files
 alias rmd='/bin/rm  --recursive --force --verbose '
 
+# list all root dirs with their sizes of the current dir
+alias sizedir='fd -H -t d -d 1 . . | xargs du -hs | sort -h -r'
+
 alias mx='chmod a+x'
 alias 000='chmod -R 000'
 alias 644='chmod -R 644'
