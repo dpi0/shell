@@ -28,48 +28,41 @@ speedtest(){
 	curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
 }
 
-# launch-waybar(){
-#     CONFIG_FILES="$DOTFILES/waybar/config.jsonc $DOTFILES/waybar/style.css "
-#     
-#     #$DOTFILES/waybar/config2.jsonc
-#     
-#     trap "killall waybar" EXIT
-#     
-#     while true; do
-#         waybar &
-#         inotifywait -e create,modify $CONFIG_FILES
-#         killall waybar
-#     done
-# }
-#
-
 f() {
-	search_term="$1"
+    search_term="$1"
 
-	SELECTED_FILE=$(
-	fzf \
-		--query="$search_term" \
-		--exact \
-		--extended \
-		--preview="bat --style=numbers --color=always --line-range :500 {}" \
-		--preview-window="right:50%" \
-		--ansi
-	)
+    SELECTED_FILE=$(
+        fzf \
+            --query="$search_term" \
+            --exact \
+            --extended \
+            --preview="bat --style=numbers --color=always --line-range :500 {}" \
+            --preview-window="right:50%" \
+            --ansi
+    )
 
-	if [ -n "$SELECTED_FILE" ]; then
-		file_extension="${SELECTED_FILE##*.}"
+    if [ -n "$SELECTED_FILE" ]; then
+        file_extension="${SELECTED_FILE##*.}"
 
-		case "$file_extension" in
-			"pdf")
-				zathura "$SELECTED_FILE"
-				;;
-			"txt" | "py" | "rs" | "go" | "md")
-				nvim "$SELECTED_FILE"
-				;;
-			*)
-				nvim "$SELECTED_FILE"
-				;;
-		esac
+        case "$file_extension" in
+            "pdf")
+                evince "$SELECTED_FILE"
+                ;;
+            "txt" | "py" | "rs" | "go" | "md")
+                if command -v nvim &> /dev/null; then
+                    nvim "$SELECTED_FILE"
+                else
+                    vim "$SELECTED_FILE"
+                fi
+                ;;
+            *)
+                if command -v nvim &> /dev/null; then
+                    nvim "$SELECTED_FILE"
+                else
+                    vim "$SELECTED_FILE"
+                fi
+                ;;
+        esac
 
         # Check if wl-copy is installed
         if command -v wl-copy &> /dev/null; then
@@ -78,8 +71,57 @@ f() {
         fi
 
         # Print the selected file value to stdout
+        echo "$SELECTED_FILE" | wl-copy
         echo "$SELECTED_FILE"
-	fi
+    fi
+}
+
+s() {
+    search_term="$1"
+
+        SELECTED_FILE=$(
+            fd --type f --hidden --follow --search-path /data --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
+                --query="$search_term" \
+                --exact \
+                --extended \
+                --preview="bat --style=numbers --color=always --line-range :500 {}" \
+                --preview-window="right:50%" \
+                --ansi
+        )
+
+if [ -n "$SELECTED_FILE" ]; then
+    file_extension="${SELECTED_FILE##*.}"
+
+    case "$file_extension" in
+        "pdf")
+            evince "$SELECTED_FILE"
+            ;;
+        "png" | "jpg" | "jpeg")
+            loupe "$SELECTED_FILE"
+            ;;
+        "mp4" | "mkv" | "gif")
+            mpv "$SELECTED_FILE"
+            ;;
+        "txt" | "py" | "rs" | "go" | "md")
+            if command -v nvim &> /dev/null; then
+                nvim "$SELECTED_FILE"
+            else
+                vim "$SELECTED_FILE"
+            fi
+            ;;
+        *)
+            if command -v nvim &> /dev/null; then
+                nvim "$SELECTED_FILE"
+            else
+                vim "$SELECTED_FILE"
+            fi
+            ;;
+    esac
+
+        # Print the selected file value to stdout
+        echo "$SELECTED_FILE" | wl-copy
+        echo "$SELECTED_FILE"
+    fi
 }
 
 # cd into dir
@@ -101,6 +143,30 @@ ff() {
 	else
 		echo "No file selected"
 	fi
+}
+
+ss() {
+    local search_term
+    search_term="$1"
+
+    local selected_file
+    selected_file=$(
+        fd --type f --hidden --follow --search-path /data --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
+            --query="$search_term" \
+            --exact \
+            --extended \
+            --preview="bat --style=numbers --color=always --line-range :500 {}" \
+            --preview-window="right:50%" \
+            --ansi
+    )
+
+    if [[ -n $selected_file ]]; then
+        local parent_dir
+        parent_dir=$(dirname "$selected_file")
+        cd "$parent_dir" || echo "Failed to change directory"
+    else
+        echo "No file selected"
+    fi
 }
 
 fh() {
@@ -180,3 +246,19 @@ compress() {
 
   echo "Compression operation completed successfully. Output file: $output_file$extension"
 }
+
+# launch-waybar(){
+#     CONFIG_FILES="$DOTFILES/waybar/config.jsonc $DOTFILES/waybar/style.css "
+#     
+#     #$DOTFILES/waybar/config2.jsonc
+#     
+#     trap "killall waybar" EXIT
+#     
+#     while true; do
+#         waybar &
+#         inotifywait -e create,modify $CONFIG_FILES
+#         killall waybar
+#     done
+# }
+#
+
