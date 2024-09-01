@@ -171,10 +171,18 @@ else
               sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
             sudo apt-get update
             sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            sudo usermod -aG docker $USER
+            newgrp docker
+            sudo systemctl enable docker.service
+            sudo systemctl start docker.service
             echo -e "${GREEN}docker installation completed!${RESET}"
         elif [ "$OS" == "Arch Linux" ]; then
             echo -e "${GREEN}Installing Docker...${RESET}"
             sudo pacman -Syu docker docker-compose
+            sudo usermod -aG docker $USER
+            newgrp docker
+            sudo systemctl enable docker.service
+            sudo systemctl start docker.service
             echo -e "${GREEN}docker installation completed!${RESET}"
         fi
     else
