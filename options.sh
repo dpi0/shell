@@ -18,7 +18,7 @@ autoload -Uz compinit && compinit
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export CONFIG="$HOME/.config"
-export SCRIPTS="$ZSHROOT/scripts"
+export SCRIPTS="$DOTFILES/scripts"
 export LOCALBIN="$HOME/.local/bin"
 export EDITOR="/usr/bin/vim"
 export GPG_TTY=$(tty)
