@@ -203,6 +203,12 @@ else
   echo -e "${YELLOW}.zshrc symlink already exists, Skipping...${RESET}"
 fi
 
+if [ ! -e "$HOME/.tmux.conf" ]; then
+  ln -s "$HOME/zsh/.tmux.conf" "$HOME/.tmux.conf"
+else
+  echo -e "${YELLOW}.tmux.conf symlink already exists, Skipping...${RESET}"
+fi
+
 if [ "$SHELL" != "/sbin/zsh" ] && [ "$SHELL" != "/bin/zsh" ] && [ "$SHELL" != "/usr/sbin/zsh" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
   echo -e "${YELLOW}Changing default shell to zsh...${RESET}"
   sudo usermod -s /usr/bin/zsh $USER
