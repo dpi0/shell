@@ -32,6 +32,8 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh --cmd j)"
 fi
 
+export GOPATH="$HOME/go"
+
 # load the environment variables from the .env file
 # export $(grep -v '^#' ~/.dotfiles/.env | xargs)
 

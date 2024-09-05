@@ -119,6 +119,9 @@ alias kb="kubectl"
 
 # GIT
 
+alias gi='git init'
+forgit_ignore=gii
+
 # GIT ADD
 alias ga='git add'
 alias gaa='git add --all'
