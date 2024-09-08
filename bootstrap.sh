@@ -21,7 +21,7 @@ elif [ -f /etc/debian_version ]; then
     VER=$(cat /etc/debian_version)
 else
     # Unable to identify system
-    echo "Unable to identify system. Please install Zsh manually."
+    echo "Unable to identify system. Please install manually."
     exit 1
 fi
 
@@ -44,7 +44,7 @@ install_package() {
             sudo apt update && sudo apt install -y "$1"
             echo -e "${GREEN}$1 installation completed!${RESET}"
         elif [ "$OS" == "Arch Linux" ]; then
-            sudo pacman -Syu "$1"
+            sudo pacman -Syu "$1" --noconfirm
             echo -e "${GREEN}$1 installation completed!${RESET}"
         else
             echo -e "${RED}Unsupported system. Please install $1 manually.${RESET}"
@@ -64,35 +64,25 @@ clone_repo() {
     fi
 }
 
+# Ubuntu-specific Snap removal
 if [ "$OS" == "Ubuntu" ]; then
-  echo -e "${YELLOW}Ubuntu system detected. Remove Snap? (y/n)${RESET}"
-  read -r response
-  if [[ $response =~ ^[Yy]$ ]]; then
-    echo -e "${YELLOW}Removing Snap from Ubuntu system...${RESET}"
-    sudo snap list
-    # Remove all Snap packages
-    echo -e "${RED}Removing Snap packages...${RESET}"
-    sudo snap remove --purge $(snap list | cut -d' ' -f1)
-    # Remove Snapd
-    echo -e "${RED}Removing Snapd...${RESET}"
-    sudo apt remove --purge snapd -y
-    # Remove Snap directories
-    echo -e "${RED}Removing Snap directories...${RESET}"
-    sudo rm -rf ~/snap
-    sudo rm -rf /snap
-    sudo rm -rf /var/snap
-    sudo rm -rf /var/lib/snapd
-    echo -e "${GREEN}Snap removed successfully!${RESET}"
-  else
-    echo -e "${YELLOW}Skipping Snap removal...${RESET}"
-  fi
-else
-  echo -e "${YELLOW}Not an Ubuntu system, skipping Snap removal...${RESET}"
+    echo -e "${YELLOW}Ubuntu detected. Remove Snap? (y/n)${RESET}"
+    read -r response
+    if [[ $response =~ ^[Yy]$ ]]; then
+        echo -e "${YELLOW}Removing Snap...${RESET}"
+        sudo snap list
+        sudo snap remove --purge $(snap list | awk '{if(NR>1)print $1}')
+        sudo apt remove --purge snapd -y
+        sudo rm -rf ~/snap /snap /var/snap /var/lib/snapd
+        echo -e "${GREEN}Snap removed successfully!${RESET}"
+    else
+        echo -e "${YELLOW}Skipping Snap removal...${RESET}"
+    fi
 fi
 
 # Install Aops
 packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
-packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat nvim zip unzip)
+packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat nvim zip unzip ripgrep ripgrep-all)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do
@@ -112,6 +102,20 @@ if [ "$OS" == "Ubuntu" ]; then
     # Check for nvim
     if ! command -v nvim &> /dev/null; then
         install_package "neovim"
+    fi
+
+    # Check for ripgrep
+    if ! command -v rg &> /dev/null; then
+        install_package "ripgrep"
+    fi
+
+    # Check for ripgrep-all
+    if ! command -v rga &> /dev/null; then
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/phiresky/ripgrep-all/releases/latest | jq -r '.tag_name')
+        curl -s -L https://github.com/phiresky/ripgrep-all/releases/download/$LATEST_VERSION/ripgrep_all-$LATEST_VERSION-x86_64-unknown-linux-musl.tar.gz -o ripgrep_all.tar.gz
+        tar -xvf ripgrep_all.tar.gz
+        cp ripgrep_all-$LATEST_VERSION-x86_64-unknown-linux-musl/rga $HOME/.local/bin/
+        cp ripgrep_all-$LATEST_VERSION-x86_64-unknown-linux-musl/rga-fzf $HOME/.local/bin/
     fi
     
 elif [ "$OS" == "Arch Linux" ]; then
@@ -152,41 +156,21 @@ echo -e "${GREEN}Utilities installed!${RESET}"
 echo
 # Check if Docker is already installed
 if command -v docker &> /dev/null; then
-    echo -e "${YELLOW}docker is already installed. Skipping...${RESET}"
+    echo -e "${YELLOW}Docker is already installed. Skipping...${RESET}"
 else
     # Ask for confirmation before installing Docker
     read -p "Install Docker? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        if [ "$OS" == "Ubuntu" ]; then
-            echo -e "${GREEN}Installing Docker...${RESET}"
-            sudo apt-get update
-            sudo apt-get install ca-certificates curl
-            sudo install -m 0755 -d /etc/apt/keyrings
-            sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-            sudo chmod a+r /etc/apt/keyrings/docker.asc
-            echo \
-              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-              sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-            sudo apt-get update
-            sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-            sudo usermod -aG docker $USER
-            newgrp docker
-            sudo systemctl enable docker.service
-            sudo systemctl start docker.service
-            echo -e "${GREEN}docker installation completed!${RESET}"
-        elif [ "$OS" == "Arch Linux" ]; then
-            echo -e "${GREEN}Installing Docker...${RESET}"
-            sudo pacman -Syu docker docker-compose
-            sudo usermod -aG docker $USER
-            newgrp docker
-            sudo systemctl enable docker.service
-            sudo systemctl start docker.service
-            echo -e "${GREEN}docker installation completed!${RESET}"
-        fi
+        echo -e "${GREEN}Installing Docker...${RESET}"
+        curl -fsSL https://get.docker.com | sh
+        sudo usermod -aG docker $USER
+        newgrp docker
+        sudo systemctl enable docker.service
+        sudo systemctl start docker.service
+        echo -e "${GREEN}Docker installation completed!${RESET}"
     else
-        echo -e "${RED}docker installation cancelled.${RESET}"
+        echo -e "${RED}Docker installation cancelled.${RESET}"
     fi
 fi
 
