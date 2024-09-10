@@ -17,6 +17,7 @@ autoload -Uz compinit && compinit
 
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.dotfiles/scripts"
 export CONFIG="$HOME/.config"
 export SCRIPTS="$DOTFILES/scripts"
 export LOCALBIN="$HOME/.local/bin"
