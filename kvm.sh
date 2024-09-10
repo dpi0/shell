@@ -61,9 +61,9 @@ setup_preliminary() {
 create_partitions() {
   echo -e "${CYAN}>>> Creating Partitions${RESET}"
   parted -s "$DISK" mklabel gpt
-  parted -s "$DISK" mkpart primary fat32 1MiB 512MiB
+  parted -s "$DISK" mkpart primary fat32 1MiB 256MiB
   parted -s "$DISK" set 1 esp on
-  parted -s "$DISK" mkpart primary ext4 512MiB 1024MiB
+  parted -s "$DISK" mkpart primary ext4 256MiB 1024MiB
   parted -s "$DISK" set 2 bls_boot on
   parted -s "$DISK" mkpart primary ext4 1024MiB 100%
   echo -e "${GREEN}Partition created${RESET}"
