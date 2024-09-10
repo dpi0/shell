@@ -9,6 +9,8 @@ alias vf='rga-fzf'
 alias cp='rsync -avh --progress --itemize-changes --stats'
 alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats'
 alias rec='asciinema rec'
+alias img='loupe'
+alias image='loupe'
 
 # remove all dir and all it's files
 alias rmd='/bin/rm  --recursive --force --verbose '
