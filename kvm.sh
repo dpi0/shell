@@ -16,9 +16,9 @@ export LOCALE_LANG="en_US.UTF-8"
 export TIMEZONE="Asia/Kolkata"
 export KEYMAP="us"
 export FONT="ter-132n"
-export USERNAME="user0"
+export USERNAME="user"
 export USERGROUP="wheel"
-export USER_PASSWORD="user0"
+export USER_PASSWORD="user"
 # export ROOT_PASSWORD="root"
 
 # Color definitions
@@ -89,7 +89,7 @@ mount_partitions() {
 
 pacstrap_install() {
   echo -e "${CYAN}>>> Pacstrap${RESET}"
-  pacstrap -K /mnt base linux vim sudo less intel-ucode terminus-font
+  pacstrap /mnt base linux vim sudo less intel-ucode
   echo -e "${GREEN}Packages installed!${RESET}"
 }
 
@@ -121,8 +121,8 @@ create_user() {
   echo -e "${CYAN}>>> Creating user $USERNAME...${RESET}"
   useradd -mg "$USERGROUP" "$USERNAME"
   echo "$USERNAME:$USER_PASSWORD" | chpasswd
-  echo "%$USERGROUP all=(all) all" >> /etc/sudoers
-  echo -e "${GREEN}User $USERNAME created${RESET}"
+  echo "%$USERGROUP ALL=(ALL:ALL) ALL" >> /etc/sudoers
+  echo -e "${GREEN}User $USERNAME created!${RESET}"
 }
 
 pacman_fix() {
@@ -151,7 +151,7 @@ bootloader_setup() {
   
   echo -e "${CYAN}>>> Configuring bootloader settings...${RESET}"
   {
-    echo timeout 2
+    echo timeout 0
     echo default arch.conf
     echo console-mode max
     echo editor no
@@ -167,7 +167,6 @@ bootloader_setup() {
     echo initrd /initramfs-linux.img
     echo options root=UUID="$UUID" rw
   } >>/boot/loader/entries/arch.conf
-
   
   echo -e "${GREEN}>>> Bootloader installed and configured successfully!${RESET}"
 }
