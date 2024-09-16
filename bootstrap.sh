@@ -81,8 +81,8 @@ if [ "$OS" == "Ubuntu" ]; then
 fi
 
 # Install Aops
-packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
-packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat zip unzip ripgrep ripgrep-all)
+packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip gh duf)
+packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat zip unzip ripgrep ripgrep-all duf github-cli ctop)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do

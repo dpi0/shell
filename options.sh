@@ -21,6 +21,7 @@ export PATH="$PATH:$HOME/.dotfiles/scripts"
 export CONFIG="$HOME/.config"
 export SCRIPTS="$DOTFILES/scripts"
 export LOCALBIN="$HOME/.local/bin"
+export VOLUMES="$HOME/docker_volumes"
 export EDITOR="/usr/bin/vim"
 export GPG_TTY=$(tty)
 export PIPENV_VENV_IN_PROJECT=0
