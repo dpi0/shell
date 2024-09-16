@@ -11,6 +11,8 @@ alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats
 alias rec='asciinema rec'
 alias img='loupe'
 alias image='loupe'
+alias yless="jless --yaml"
+alias copy="wl-copy"
 
 # remove all dir and all it's files
 alias rmd='/bin/rm  --recursive --force --verbose '
@@ -28,6 +30,7 @@ alias 777='chmod -R 777'
 alias sudoEs='sudo -E -s'
 
 alias l="eza --icons -a -l"
+alias ll="eza --icons -l"
 alias ls="l"
 alias lg="l -g"
 alias lt="eza --icons -a -T"

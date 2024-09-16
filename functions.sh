@@ -80,7 +80,7 @@ s() {
     search_term="$1"
 
         SELECTED_FILE=$(
-            fd --type f --hidden --follow --search-path /data --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
+            fd --type f --hidden --follow --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
                 --query="$search_term" \
                 --exact \
                 --extended \
@@ -151,7 +151,7 @@ ss() {
 
     local selected_file
     selected_file=$(
-        fd --type f --hidden --follow --search-path /data --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
+        fd --type f --hidden --follow --search-path /home/dpi0 --exclude '**/.cache' --exclude '**/.Trash-1000' --color=always | fzf \
             --query="$search_term" \
             --exact \
             --extended \

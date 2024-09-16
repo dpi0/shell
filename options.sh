@@ -18,6 +18,8 @@ autoload -Uz compinit && compinit
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.dotfiles/scripts"
+export PATH="$PATH:$HOME/.deno/bin"
+export PATH="$PATH:$HOME/.nix-profile/bin"
 export CONFIG="$HOME/.config"
 export SCRIPTS="$DOTFILES/scripts"
 export LOCALBIN="$HOME/.local/bin"
