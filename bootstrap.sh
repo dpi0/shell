@@ -82,7 +82,7 @@ fi
 
 # Install Aops
 packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
-packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat nvim zip unzip ripgrep ripgrep-all)
+packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat neovim zip unzip ripgrep ripgrep-all)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do
@@ -158,19 +158,38 @@ echo
 if command -v docker &> /dev/null; then
     echo -e "${YELLOW}Docker is already installed. Skipping...${RESET}"
 else
-    # Ask for confirmation before installing Docker
-    read -p "Install Docker? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo -e "${GREEN}Installing Docker...${RESET}"
-        curl -fsSL https://get.docker.com | sh
-        sudo usermod -aG docker $USER
-        newgrp docker
-        sudo systemctl enable docker.service
-        sudo systemctl start docker.service
-        echo -e "${GREEN}Docker installation completed!${RESET}"
+    if [ "$OS" == "Ubuntu" ]; then
+        # Ask for confirmation before installing Docker
+        read -p "Install Docker? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "${GREEN}Installing Docker...${RESET}"
+            curl -fsSL https://get.docker.com | sh
+            sudo usermod -aG docker $USER
+            newgrp docker
+            sudo systemctl enable docker.service
+            sudo systemctl start docker.service
+            echo -e "${GREEN}Docker installation completed!${RESET}"
+        else
+            echo -e "${RED}Docker installation cancelled.${RESET}"
+        fi
+    elif [ "$OS" == "Arch Linux" ]; then
+        # Ask for confirmation before installing Docker on Arch Linux
+        read -p "Install Docker on Arch Linux? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "${GREEN}Installing Docker on Arch Linux...${RESET}"
+            sudo pacman -Syu --noconfirm docker docker-compose
+            sudo usermod -aG docker $USER
+            newgrp docker
+            sudo systemctl enable docker.service
+            sudo systemctl start docker.service
+            echo -e "${GREEN}Docker installation completed on Arch Linux!${RESET}"
+        else
+            echo -e "${RED}Docker installation cancelled.${RESET}"
+        fi
     else
-        echo -e "${RED}Docker installation cancelled.${RESET}"
+        echo -e "${RED}Docker installation is only supported for Ubuntu and Arch Linux.${RESET}"
     fi
 fi
 
