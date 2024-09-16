@@ -1,12 +1,17 @@
-# let it stay on top & READ THIS: for why this is so cool- https://github.com/romkatv/zsh-bench?tab=readme-ov-file#instant-prompt
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# Change prompt if the hostname is not arch
+if [[ "$(cat /etc/hostname)" != "arch" ]]; then
+    PROMPT="%F{#009dff}%n%F{#00ff59}@%m %F{#ffea00}in %~ %F{reset}$ "
+else
+    # let it stay on top & READ THIS: for why this is so cool- https://github.com/romkatv/zsh-bench?tab=readme-ov-file#instant-prompt
+    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    fi
+	source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 fi
 
 export ZSHROOT="$HOME/zsh"
 export DOTFILES="$HOME/.dotfiles"
 
-source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 source $ZSHROOT/options.sh
 source $ZSHROOT/alias.sh
 source $ZSHROOT/functions.sh
