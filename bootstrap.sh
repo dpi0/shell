@@ -82,7 +82,7 @@ fi
 
 # Install Aops
 packages_apt=(zsh tmux git gpg btop eza fzf gdu zip unzip)
-packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat neovim zip unzip ripgrep ripgrep-all)
+packages_pacman=(zsh tmux git gpg btop eza fzf fd gdu bat zip unzip ripgrep ripgrep-all)
 
 if [ "$OS" == "Ubuntu" ]; then
     for package in "${packages_apt[@]}"; do
@@ -122,6 +122,11 @@ elif [ "$OS" == "Arch Linux" ]; then
     for package in "${packages_pacman[@]}"; do
         install_package "$package"
     done
+    
+    # Check for nvim
+    if ! command -v nvim &> /dev/null; then
+        install_package "neovim"
+    fi
 fi
 
 if ! command -v zoxide &> /dev/null && [ "$OS" != "Arch Linux" ]; then
@@ -179,7 +184,7 @@ else
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo -e "${GREEN}Installing Docker on Arch Linux...${RESET}"
-            sudo pacman -Syu --noconfirm docker docker-compose
+            install_package "docker-compose"
             sudo usermod -aG docker $USER
             newgrp docker
             sudo systemctl enable docker.service
