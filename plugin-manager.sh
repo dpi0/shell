@@ -49,6 +49,7 @@ repos=(
   MichaelAquilina/zsh-you-should-use
   wfxr/forgit
   Aloxaf/fzf-tab
+  zdharma-continuum/fast-syntax-highlighting
   # jeffreytse/zsh-vi-mode
 )
 
@@ -61,6 +62,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-substring-search
+  fast-syntax-highlighting
   # zsh-vi-mode
 )
 
