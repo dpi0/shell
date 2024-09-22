@@ -47,60 +47,57 @@ check_uefi() {
   fi
 }
 
-# set preliminary setup
 setup_preliminary() {
-  echo -e "${GREEN}>>> Preliminary setup${RESET}"
+  echo -e "${GREEN}>>> Preliminary setup...${RESET}"
   setfont "$FONT"
   loadkeys "$KEYMAP"
   timedatectl set-timezone "$TIMEZONE"
   timedatectl set-ntp true
-  echo -e "${GREEN}Preliminary done!${RESET}"
+  echo -e "${GREEN}Preliminary setup completed!${RESET}"
 }
 
-# create partitions
 create_partitions() {
-  echo -e "${CYAN}>>> Creating Partitions${RESET}"
+  echo -e "${CYAN}>>> Creating Partitions...${RESET}"
   parted -s "$DISK" mklabel gpt
   parted -s "$DISK" mkpart primary fat32 1MiB 256MiB
   parted -s "$DISK" set 1 esp on
   parted -s "$DISK" mkpart primary ext4 256MiB 1024MiB
   parted -s "$DISK" set 2 bls_boot on
   parted -s "$DISK" mkpart primary ext4 1024MiB 100%
-  echo -e "${GREEN}Partition created${RESET}"
+  echo -e "${GREEN}Partitions created successfully!${RESET}"
 }
 
-# format partitions
 format_partitions() {
-  echo -e "${CYAN}>>> Formatting Partitions${RESET}"
+  echo -e "${CYAN}>>> Formatting Partitions...${RESET}"
   mkfs.fat -F32 "$DISK"1
   mkfs.fat -F32 "$DISK"2
   mkfs.ext4 "$DISK"3
-  echo -e "${GREEN}Partitions formatted${RESET}"
+  echo -e "${GREEN}Partitions formatted successfully!${RESET}"
 }
 
 mount_partitions() {
-  echo -e "${CYAN}>>> Mounting Partitions${RESET}"
+  echo -e "${CYAN}>>> Mounting Partitions...${RESET}"
   mount "$DISK"3 /mnt
   mkdir /mnt/efi /mnt/boot
   mount "$DISK"1 /mnt/efi
   mount "$DISK"2 /mnt/boot
-  echo -e "${GREEN}Partitions mounted${RESET}"
+  echo -e "${GREEN}Partitions mounted successfully!${RESET}"
 }
 
 pacstrap_install() {
-  echo -e "${CYAN}>>> Pacstrap${RESET}"
+  echo -e "${CYAN}>>> Setting Pacstrap...${RESET}"
   pacstrap /mnt base linux vim sudo less intel-ucode
-  echo -e "${GREEN}Packages installed!${RESET}"
+  echo -e "${GREEN}Packages installed successfully!${RESET}"
 }
 
 fstab() {
-  echo -e "${GREEN}>>> Fstab${RESET}"
+  echo -e "${GREEN}>>> Writing fstab...${RESET}"
   genfstab -U /mnt >> /mnt/etc/fstab
-  echo -e "${GREEN}Fstab done!${RESET}"
+  echo -e "${GREEN}fstab written successfully!${RESET}"
 }
 
 timezone() {
-  echo -e "${CYAN}>>> Seting timezone${RESET}"
+  echo -e "${CYAN}>>> Seting timezone...${RESET}"
   ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
   hwclock -w
   echo -e "${GREEN}Timezone set successfully!${RESET}"
@@ -197,22 +194,16 @@ base() {
   echo -e "${GREEN}Base system setup complete!${RESET}"
 
   echo -e "${GREEN}>>> Leaving chroot and rebooting"
-  # exit
-
+  
   umount -R /mnt
   reboot
 }
 
 main() {
-  if [[ "$INSIDE_CHROOT" == true ]]; then
+  if [[ "$1" == "chroot" ]]; then
     base_chroot
   else
-    read -r -p "Arch Install Script, proceed? (y/n)" choice
-    case "$choice" in
-      y | Y) base ;;
-      n | N) exit ;;
-      *) exit ;;
-    esac
+    base
   fi
 }
 
