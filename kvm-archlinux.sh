@@ -53,6 +53,8 @@ setup_preliminary() {
   loadkeys "$KEYMAP"
   timedatectl set-timezone "$TIMEZONE"
   timedatectl set-ntp true
+  cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+  reflector --verbose -c India -l 10 -p https --sort rate --save /etc/pacman.d/mirrorlist
   echo -e "${GREEN}Preliminary setup completed!${RESET}"
 }
 
@@ -188,7 +190,11 @@ base() {
   pacstrap_install
   fstab
 
-  cp "$0" /mnt/root/install.sh
+  # Create a temporary file to store the script content
+  SCRIPT_CONTENT=$(cat "$0")
+  echo "$SCRIPT_CONTENT" > /mnt/root/install.sh
+  chmod +x /mnt/root/install.sh
+  
   arch-chroot /mnt /bin/bash /root/install.sh chroot
 
   echo -e "${GREEN}Base system setup complete!${RESET}"

@@ -24,7 +24,8 @@ copybuffer() {
         echo "Error! Couldn't copy current line. wl-copy not present"
     fi
 }
-speedtest(){
+
+speedtest_curl(){
 	curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
 }
 
