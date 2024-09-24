@@ -31,7 +31,6 @@ CYAN='\033[36m'
 WHITE='\033[37m'
 RESET='\033[0m'
 
-# check if running as root
 check_root() {
   if [ "$(id -u)" -ne 0 ]; then
     echo -e "${RED}This script must be run as root${RESET}" 1>&2
@@ -39,7 +38,6 @@ check_root() {
   fi
 }
 
-# check UEFI platform
 check_uefi() {
   if [ ! -d /sys/firmware/efi ]; then
     echo -e "${YELLOW}Warning: This script is intended for UEFI platforms${RESET}" 1>&2
@@ -55,7 +53,7 @@ setup_preliminary() {
   timedatectl set-ntp true
   cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
   reflector --verbose -c India -l 10 -p https --sort rate --save /etc/pacman.d/mirrorlist
-  echo -e "${GREEN}Preliminary setup completed!${RESET}"
+  echo -e "${GREEN}Preliminary done!${RESET}"
 }
 
 create_partitions() {
@@ -66,7 +64,7 @@ create_partitions() {
   parted -s "$DISK" mkpart primary ext4 256MiB 1024MiB
   parted -s "$DISK" set 2 bls_boot on
   parted -s "$DISK" mkpart primary ext4 1024MiB 100%
-  echo -e "${GREEN}Partitions created successfully!${RESET}"
+  echo -e "${GREEN}Partitions created!${RESET}"
 }
 
 format_partitions() {
@@ -74,7 +72,7 @@ format_partitions() {
   mkfs.fat -F32 "$DISK"1
   mkfs.fat -F32 "$DISK"2
   mkfs.ext4 "$DISK"3
-  echo -e "${GREEN}Partitions formatted successfully!${RESET}"
+  echo -e "${GREEN}Partitions formatted!${RESET}"
 }
 
 mount_partitions() {
@@ -83,26 +81,26 @@ mount_partitions() {
   mkdir /mnt/efi /mnt/boot
   mount "$DISK"1 /mnt/efi
   mount "$DISK"2 /mnt/boot
-  echo -e "${GREEN}Partitions mounted successfully!${RESET}"
+  echo -e "${GREEN}Partitions mounted!${RESET}"
 }
 
 pacstrap_install() {
-  echo -e "${CYAN}>>> Setting Pacstrap...${RESET}"
+  echo -e "${CYAN}>>> Pacstrap${RESET}"
   pacstrap /mnt base linux vim sudo less intel-ucode
-  echo -e "${GREEN}Packages installed successfully!${RESET}"
+  echo -e "${GREEN}Packages installed!${RESET}"
 }
 
 fstab() {
   echo -e "${GREEN}>>> Writing fstab...${RESET}"
   genfstab -U /mnt >> /mnt/etc/fstab
-  echo -e "${GREEN}fstab written successfully!${RESET}"
+  echo -e "${GREEN}fstab written!${RESET}"
 }
 
 timezone() {
   echo -e "${CYAN}>>> Seting timezone...${RESET}"
   ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
   hwclock -w
-  echo -e "${GREEN}Timezone set successfully!${RESET}"
+  echo -e "${GREEN}Timezone set!${RESET}"
 }
 
 set_locale() {
@@ -113,7 +111,7 @@ set_locale() {
   echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
   echo "FONT=$FONT" >> /etc/vconsole.conf
   echo "$HOSTNAME" >> /etc/hostname
-  echo -e "${GREEN}Locale set successfully!${RESET}"
+  echo -e "${GREEN}Locale set!${RESET}"
 }
 
 create_user() {
@@ -129,19 +127,19 @@ pacman_fix() {
   sed -i 's/^#Color/Color/' /etc/pacman.conf
   sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
   sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
-  echo -e "${GREEN}Pacman configured successfully!${RESET}"
+  echo -e "${GREEN}Pacman configured!${RESET}"
 }
 
 more_packages() {
   echo -e "${CYAN}>>> Installing additional packages...${RESET}"
   pacman -S --noconfirm git openssh pacman-contrib networkmanager
-  echo -e "${GREEN}Additional packages installed successfully!${RESET}"
+  echo -e "${GREEN}Additional packages installed!${RESET}"
 }
 
 systemd_services() {
   echo -e "${CYAN}>>> Enabling systemd services...${RESET}"
   systemctl enable fstrim.timer paccache.timer NetworkManager sshd
-  echo -e "${GREEN}Systemd services enabled successfully!${RESET}"
+  echo -e "${GREEN}Systemd services enabled!${RESET}"
 }
 
 bootloader_setup() {
@@ -167,7 +165,7 @@ bootloader_setup() {
     echo options root=UUID="$UUID" rw
   } >>/boot/loader/entries/arch.conf
   
-  echo -e "${GREEN}>>> Bootloader installed and configured successfully!${RESET}"
+  echo -e "${GREEN}>>> Bootloader installed and configured!${RESET}"
 }
 
 base_chroot() {
@@ -190,11 +188,7 @@ base() {
   pacstrap_install
   fstab
 
-  # Create a temporary file to store the script content
-  SCRIPT_CONTENT=$(cat "$0")
-  echo "$SCRIPT_CONTENT" > /mnt/root/install.sh
-  chmod +x /mnt/root/install.sh
-  
+  cp "$0" /mnt/root/install.sh
   arch-chroot /mnt /bin/bash /root/install.sh chroot
 
   echo -e "${GREEN}Base system setup complete!${RESET}"
@@ -206,7 +200,7 @@ base() {
 }
 
 main() {
-  if [[ "$1" == "chroot" ]]; then
+  if [[ "$INSIDE_CHROOT" == true ]]; then
     base_chroot
   else
     base
