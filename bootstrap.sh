@@ -247,6 +247,7 @@ setup_shell() {
     clone_repo "$TMUX_PLUGIN_REPO" "$TMUX_PLUGIN_DIR"
     clone_repo "$ZSH_REPO" "$ZSH_DIR"
 
+    mkdir -p $HOME/.config/btop
     symlink_files
     
     if [[ "$SHELL" != *"zsh" ]] && [ "$CHANGE_SHELL" = true ]; then
