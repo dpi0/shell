@@ -1,37 +1,41 @@
 return {
-	'goolord/alpha-nvim',
-	event = 'VimEnter',
+	"goolord/alpha-nvim",
+	event = "VimEnter",
 	dependencies = {
-		'nvim-tree/nvim-web-devicons',
+		"nvim-tree/nvim-web-devicons",
 	},
 
 	config = function()
-		local alpha = require 'alpha'
-		local dashboard = require 'alpha.themes.dashboard'
+		local alpha = require("alpha")
+		local dashboard = require("alpha.themes.dashboard")
 
 		-- Set header
 		dashboard.section.header.val = {
-			'                                                     ',
-			'  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
-			'  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
-			'  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
-			'  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
-			'  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
-			'  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
-			'                                                     ',
+			"                                                     ",
+			"  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+			"  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+			"  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+			"  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+			"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+			"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+			"                                                     ",
 		}
 
 		-- Set menu
 		dashboard.section.buttons.val = {
-			dashboard.button('r', '󱑍  > Recent files', ':Telescope oldfiles<CR>'),
-			dashboard.button('n', '  > New file', ':ene <BAR> startinsert <CR>'),
-			dashboard.button('f', '  > Find', ':cd /data | Telescope find_files<CR>'),
-			dashboard.button('g', '󰗧 ' .. ' > Grep', ':Telescope live_grep <CR>'),
-			dashboard.button('t', '󰐅 ' .. ' > Tree', ':NvimTreeToggle <CR>'),
-			dashboard.button('v', '󰦛  > Restore session', '<cmd>lua require("persistence").load({ last = true })<CR>'),
-			dashboard.button('s', '  > Settings', ':e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>'),
-			dashboard.button('l', '󰒲 ' .. ' > Lazy', ':Lazy<CR>'),
-			dashboard.button('q', '  > Quit', ':qa<CR>'),
+			dashboard.button("r", "󱑍  > Recent files", ":Telescope oldfiles<CR>"),
+			dashboard.button("n", "  > New file", ":ene <BAR> startinsert <CR>"),
+			dashboard.button("f", "  > Find", ":cd $HOME | Telescope find_files<CR>"),
+			dashboard.button("g", "󰗧 " .. " > Grep", ":Telescope live_grep <CR>"),
+			dashboard.button("t", "󰐅 " .. " > Tree", ":NvimTreeToggle <CR>"),
+			dashboard.button(
+				"v",
+				"󰦛  > Restore session",
+				'<cmd>lua require("persistence").load({ last = true })<CR>'
+			),
+			dashboard.button("s", "  > Settings", ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+			dashboard.button("l", "󰒲 " .. " > Lazy", ":Lazy<CR>"),
+			dashboard.button("q", "  > Quit", ":qa<CR>"),
 		}
 
 		-- Set footer
@@ -39,24 +43,23 @@ return {
 		--   To see test this yourself, add the function as a dependecy in packer and uncomment the footer lines
 		--   ```init.lua
 		--   return require('packer').startup(function()
-			--       use 'wbthomason/packer.nvim'
-			--       use {
-				--           'goolord/alpha-nvim', branch = 'feature/startify-fortune',
-				--           requires = {'BlakeJC94/alpha-nvim-fortune'},
-				--           config = function() require("config.alpha") end
-				--       }
-				--   end)
-				--   ```
-				-- local fortune = require("alpha.fortune")
-				-- dashboard.section.footer.val = fortune()
+		--       use 'wbthomason/packer.nvim'
+		--       use {
+		--           'goolord/alpha-nvim', branch = 'feature/startify-fortune',
+		--           requires = {'BlakeJC94/alpha-nvim-fortune'},
+		--           config = function() require("config.alpha") end
+		--       }
+		--   end)
+		--   ```
+		-- local fortune = require("alpha.fortune")
+		-- dashboard.section.footer.val = fortune()
 
-				-- Send config to alpha
-				alpha.setup(dashboard.opts)
+		-- Send config to alpha
+		alpha.setup(dashboard.opts)
 
-				-- Disable folding on alpha buffer
-				vim.cmd [[
+		-- Disable folding on alpha buffer
+		vim.cmd([[
 				autocmd FileType alpha setlocal nofoldenable
-				]]
-			end,
-		}
-
+				]])
+	end,
+}

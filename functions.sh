@@ -263,3 +263,34 @@ compress() {
 # }
 #
 
+# Function to create or open a note in $HOME/Notes/docs directory
+note() {
+  local note_path="$HOME/Notes/docs/$1.md"
+  if [[ -f "$note_path" ]]; then
+    # If the note exists, open it in neovim
+    nvim "$note_path"
+  else
+    # Create a new note and open it in neovim
+    mkdir -p "$(dirname "$note_path")" # Ensure the directory exists
+    touch "$note_path"
+    nvim "$note_path"
+  fi
+}
+
+# Function to enable autocompletion for the `note` command
+_note_autocomplete() {
+  local cur_word="${1}"  # Current word typed
+  local notes_dir="$HOME/Notes/docs"
+
+  # List all files and directories in the notes directory
+  local suggestions=($(find "$notes_dir" -type d -mindepth 1 -maxdepth 2 | sed "s|$notes_dir/||"))
+
+  # Add files without `.md` extension to the suggestions
+  suggestions+=($(find "$notes_dir" -type f -name "*.md" | sed "s|$notes_dir/||" | sed "s|\.md$||"))
+
+  # Provide suggestions for autocomplete
+  compadd "${suggestions[@]}"
+}
+
+# Bind autocompletion to the note function
+compdef _note_autocomplete note

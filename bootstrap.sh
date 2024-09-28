@@ -222,6 +222,7 @@ symlink_files() {
         ".zshrc:$HOME"
         ".tmux.conf:$HOME"
         "btop.conf:$CONFIG_DIR/btop"
+        "yazi:$CONFIG_DIR/yazi"
     )
     
     # Loop through each file and its target directory

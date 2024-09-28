@@ -13,6 +13,7 @@ alias img='loupe'
 alias image='loupe'
 alias yless="jless --yaml"
 alias copy="wl-copy"
+alias lf="yazi"
 
 # remove all dir and all it's files
 alias rmd='/bin/rm  --recursive --force --verbose '
@@ -47,7 +48,7 @@ alias j="ji"
 alias jj="cd ~"
 alias tree="eza --tree --long"
 alias re="source ~/.zshrc && exec zsh"
-alias tre="tmux source-file $DOTFILES/tmux/tmux.conf"
+alias tre="tmux source-file $HOME/zsh/.tmux.conf"
 alias i="feh -Fd"
 alias ufw="sudo ufw"
 alias dw="aria2c"
