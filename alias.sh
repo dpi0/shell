@@ -14,6 +14,9 @@ alias image='loupe'
 alias yless="jless --yaml"
 alias copy="wl-copy"
 alias lf="yazi"
+alias paste="paste.sh"
+alias notes="note"
+alias send-to-phone="qrcp"
 
 # remove all dir and all it's files
 alias rmd='/bin/rm  --recursive --force --verbose '
@@ -298,23 +301,23 @@ alias gwtrm='git worktree remove'
 
 # PACMAN
 
-alias p='paru' # alias for "paru -Syu"
-alias pi='paru -S' # Update/Install a specific package
-alias pqua='paru -Qua' # Show all available AUR updates
-alias pr='paru -R' # remove the package only
-alias prs='paru -Rs' # Remove a package and its dependencies that are not required by any other installed packages "s" unnecessary dependencies,
-alias pn='paru -Rn' # Remove the specified package and its configuration files "n" it's config files
-alias pc='paru -Rc' # Remove the specified package along with its configuration files. It also removes dependencies that are not required by other installed packages
-alias pu='paru -Ru' # Remove the specified package and its unneeded dependencies. It is more aggressive than -Rs in removing dependencies "u" unneeded packages.
-alias prsun='paru -Rsu' # remove a package from the system, including its dependencies that are not required by any other installed package "u" unneeded packages,
-alias prsun='paru -Rsun' # remove the package, "s" unnecessary dependencies, "u" unneeded packages, "n" it's config files
+alias p='pacman' # alias for "paru -Syu"
+alias pi='sudo pacman -S' # Update/Install a specific package
+alias pqua='sudo pacman -Qua' # Show all available AUR updates
+alias pr='sudo pacman -R' # remove the package only
+alias prs='sudo pacman -Rs' # Remove a package and its dependencies that are not required by any other installed packages "s" unnecessary dependencies,
+alias pn='sudo pacman -Rn' # Remove the specified package and its configuration files "n" it's config files
+alias pc='sudo pacman -Rc' # Remove the specified package along with its configuration files. It also removes dependencies that are not required by other installed packages
+alias pu='sudo pacman -Ru' # Remove the specified package and its unneeded dependencies. It is more aggressive than -Rs in removing dependencies "u" unneeded packages.
+alias prsu='sudo pacman -Rsu' # remove a package from the system, including its dependencies that are not required by any other installed package "u" unneeded packages,
+alias prsun='sudo pacman -Rsun' # remove the package, "s" unnecessary dependencies, "u" unneeded packages, "n" it's config files
 alias pch='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
 alias pqi='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
 alias pchf='pacman -Ql' # What files does this package have? i.e., pcheckfiles
 alias pql='pacman -Ql' # What files does this package have? i.e., pcheckfiles
 alias pcho='pacman -Qo' # Who owns this package? i.e., pcheckowner
 alias pqo='pacman -Qo' # Who owns this package? i.e., pcheckowner
-alias pro='sudo pacman -Rns $(pacman -Qdtq)' # Uninstall unneeded packages
+alias pr_unneeded='sudo pacman -Rns $(pacman -Qdtq)' # Uninstall unneeded packages
 alias pq='pacman -Q' # List all installed packages on the system along with their version numbers.
 alias pqu='pacman -Qu' # List all packages that have updates available in the repositories.
 alias pqdt='pacman -Qdt' # List orphaned packages, i.e., packages that were installed as dependencies but are no longer required by any explicitly installed package. List unneeded packages
@@ -324,7 +327,7 @@ alias pat='pactree' # What does pkg depend on?
 alias patr='pactree -r' # What depends on pkg?
 alias pss='pacman -Ss' # Search for a package or packages in the repositories.
 alias psi='pacman -Si' # Display information about a given package located in the repositories.
-alias pqc='pacman -Qs' # Search for a package or packages in the local database.
+alias pqs='pacman -Qs' # Search for a package or packages in the local database.
 
 # PYTHON 
 

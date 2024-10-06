@@ -1,6 +1,7 @@
 [manager]
 
 keymap = [
+	{ on = [ "E" ], run = "plugin eza-preview",  desc = "Toggle tree/list dir preview" },
 	{ on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selected, or cancel search" },
 	{ on = "<C-[>", run = "escape",             desc = "Exit visual mode, clear selected, or cancel search" },
 	{ on = "q",     run = "quit",               desc = "Exit the process" },
@@ -146,6 +147,31 @@ keymap = [
 	{ on = "~",    run = "help", desc = "Open help" },
 	{ on = "<F1>", run = "help", desc = "Open help" },
 ]
+
+[[manager.prepend_keymap]]
+on = [ "m" ]
+run = "plugin bookmarks --args=save"
+desc = "Save current position as a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "'" ]
+run = "plugin bookmarks --args=jump"
+desc = "Jump to a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "b", "d" ]
+run = "plugin bookmarks --args=delete"
+desc = "Delete a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "b", "D" ]
+run = "plugin bookmarks --args=delete_all"
+desc = "Delete all bookmarks"
+
+[[manager.prepend_keymap]]
+on = ["C"]
+run = "plugin ouch --args=tar.xz"
+desc = "Compress with ouch"
 
 [tasks]
 

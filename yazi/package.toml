@@ -1,0 +1,5 @@
+[plugin]
+deps = [{ use = "Reledia/glow", rev = "4e016fa" }, { use = "dedukun/bookmarks", rev = "600f87c" }, { use = "Ape/mediainfo", rev = "c69314e" }, { use = "Tyarel8/video-ffmpeg", rev = "fe26a18" }]
+
+[flavor]
+deps = [{ use = "yazi-rs/flavors:catppuccin-frappe", rev = "d479f67" }]

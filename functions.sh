@@ -191,7 +191,7 @@ fin() {
 }
 
 in() {
-	paru -Slq | fzf -q "$1" -m --preview 'paru -Si {1}' | xargs -ro paru -S
+	pacman -Slq | fzf -q "$1" -m --preview 'pacman -Si {1}' | xargs -ro pacman -S
 }
 
 extract() {

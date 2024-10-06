@@ -90,6 +90,9 @@ fetchers = [
 	# Mimetype
 	{ id = "mime", name = "*", run = "mime", if = "!mime", prio = "high" },
 ]
+# prepend_preloaders = [
+#         { mime = "video/*", run = "video-ffmpeg" },
+# ]
 preloaders = [
 	# Image
 	{ mime = "image/{avif,hei?,jxl,svg+xml}", run = "magick" },
@@ -101,6 +104,20 @@ preloaders = [
 	# Font
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/vnd.ms-opentype", run = "font" },
+]
+prepend_previewers = [
+        { name = "*.md", run = "glow" },
+        # Archive previewer
+	{ mime = "application/*zip",            run = "ouch" },
+	{ mime = "application/x-tar",           run = "ouch" },
+	{ mime = "application/x-bzip2",         run = "ouch" },
+	{ mime = "application/x-7z-compressed", run = "ouch" },
+	{ mime = "application/x-rar",           run = "ouch" },
+	{ mime = "application/x-xz",            run = "ouch" },
+        { mime = "{image,audio,video}/*", run = "mediainfo"},
+        # { mime = "video/*", run = "video-ffmpeg" },
+        { mime = "application/x-subrip", run = "mediainfo"},
+	{ name = "*/", run = "eza-preview" },
 ]
 previewers = [
 	{ name = "*/", run = "folder", sync = true },
