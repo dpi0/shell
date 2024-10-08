@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+
+# Default values
+MAX_DEPTH=1
+INPUT=""
+OUTPUT=""
+RECURSIVE=false
+MOVE=false
+
+# Help menu
+usage() {
+    echo "Usage: seperate-file-strings --input <search_string> [--output <output_directory>] [--recursive] [--move]"
+    echo
+    echo "Options:"
+    echo "  --input, -i    : Specify the search string (required)"
+    echo "  --output, -o   : Specify the output directory (optional, default is the search string)"
+    echo "  --recursive, -r: Enable recursive search (optional, default is non-recursive)"
+    echo "  --move, -m     : Move files instead of copying (optional, default is copy)"
+    echo "  --help, -h     : Display this help menu"
+    echo
+    echo "Examples:"
+    echo "  1. Basic usage (non-recursive, default output directory, copy files):"
+    echo "     seperate-file-strings --input Screenshot"
+    echo
+    echo "  2. With a custom output directory (non-recursive, copy files):"
+    echo "     seperate-file-strings --input Screenshot --output MyScreenshots"
+    echo
+    echo "  3. Recursive search (search in all subdirectories, copy files):"
+    echo "     seperate-file-strings --input Screenshot --recursive"
+    echo
+    echo "  4. Recursive search with a custom output directory (copy files):"
+    echo "     seperate-file-strings --input Screenshot --output MyScreenshots --recursive"
+    echo
+    echo "  5. Move files instead of copying (non-recursive, default output directory):"
+    echo "     seperate-file-strings --input Screenshot --move"
+    echo
+    echo "  6. Move files with a custom output directory (non-recursive):"
+    echo "     seperate-file-strings --input Screenshot --output MyScreenshots --move"
+    echo
+    exit 1
+}
+
+# Parse command line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --input|-i)
+            if [ -z "$2" ] || [[ "$2" == -* ]]; then
+                echo "Error: --input requires a non-empty argument."
+                usage
+            fi
+            INPUT="$2"
+            shift
+            ;;
+        --output|-o)
+            if [ -z "$2" ] || [[ "$2" == -* ]]; then
+                echo "Error: --output requires a non-empty argument."
+                usage
+            fi
+            OUTPUT="$2"
+            shift
+            ;;
+        --recursive|-r)
+            RECURSIVE=true
+            ;;
+        --move|-m)
+            MOVE=true
+            ;;
+        --help|-h)
+            usage
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage
+            ;;
+    esac
+    shift
+done
+
+# Check if input is provided
+if [ -z "$INPUT" ]; then
+    echo "Error: --input is required."
+    usage
+fi
+
+# Set output directory
+if [ -z "$OUTPUT" ]; then
+    OUTPUT="$INPUT"
+fi
+
+# Create output directory if it doesn't exist
+if [ -d "$OUTPUT" ]; then
+    echo "Warning: Output directory '$OUTPUT' already exists. Files will be overwritten."
+else
+    mkdir -p "$OUTPUT"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to create output directory '$OUTPUT'."
+        exit 1
+    fi
+fi
+
+# Determine max depth
+if $RECURSIVE; then
+    MAX_DEPTH=""
+else
+    MAX_DEPTH="--max-depth 1"
+fi
+
+# Find and copy/move files using fd
+fd --type f --glob "*$INPUT*" $MAX_DEPTH | while read -r file; do
+    if $MOVE; then
+        mv "$file" "$OUTPUT/"
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to move file '$file'."
+            exit 1
+        fi
+    else
+        rsync -avh --progress --itemize-changes --stats "$file" "$OUTPUT/"
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to copy file '$file'."
+            exit 1
+        fi
+    fi
+done
+
+echo "Files ${MOVE:+moved} ${MOVE:+'to'} ${MOVE:-'copied to'} $OUTPUT successfully."

@@ -14,12 +14,22 @@ alias image='loupe'
 alias yless="jless --yaml"
 alias copy="wl-copy"
 alias lf="yazi"
-alias paste="paste.sh"
 alias notes="note"
 alias send-to-phone="qrcp"
+alias rm='echo "This is a dangerous command. Use trash instead."'
+alias Dow='cd $HOME/Downloads/'
+alias Scr='cd $HOME/Screenshots/'
+alias dev='cd $HOME/dev/'
+alias Back='cd $HOME/Backup/'
+alias Wall='cd $HOME/Wallpapers/'
+alias Notes='cd $HOME/Notes/'
+alias Books='cd $HOME/Books/'
+alias fd='fd -H'
+
+#alias rm="rm -iv"
 
 # remove all dir and all it's files
-alias rmd='/bin/rm  --recursive --force --verbose '
+alias rmd='rm -i --recursive --force --verbose '
 
 # list all root dirs with their sizes of the current dir
 alias sizedir='fd -H -t d -d 1 . . | xargs du -hs | sort -h -r'
@@ -33,7 +43,9 @@ alias 777='chmod -R 777'
 
 alias sudoEs='sudo -E -s'
 
-alias l="eza --icons -a -l"
+alias l="eza --icons -a -l --time-style relative --changed"
+alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
+alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
 alias ll="eza --icons -l"
 alias ls="l"
 alias lg="l -g"
@@ -55,9 +67,9 @@ alias tre="tmux source-file $HOME/zsh/.tmux.conf"
 alias i="feh -Fd"
 alias ufw="sudo ufw"
 alias dw="aria2c"
-alias pdf="zathura"
+alias pdf="evince"
 alias disk="duf"
-alias dust="gdu"
+# alias dust="gdu"
 alias size="gdu"
 alias play="mpv"
 alias lz=lazygit

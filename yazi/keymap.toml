@@ -159,6 +159,11 @@ run = "plugin bookmarks --args=jump"
 desc = "Jump to a bookmark"
 
 [[manager.prepend_keymap]]
+on   = "!"
+run  = 'shell "$SHELL" --block --confirm'
+desc = "Open shell here"
+
+[[manager.prepend_keymap]]
 on = [ "b", "d" ]
 run = "plugin bookmarks --args=delete"
 desc = "Delete a bookmark"

@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# Global variables
+SCRIPT_NAME=$(basename "$0")
+URL=""
+ENCODED_URL=""
+SHORTENED_URL=""
+
+# Function to display help menu
+show_help() {
+  echo "Usage: $SCRIPT_NAME <url>"
+  echo "Shorten a URL using the v.gd API and copy the shortened URL to the clipboard."
+  echo ""
+  echo "Options:"
+  echo "  -h, --help  Show this help message and exit"
+  echo ""
+  echo "Example: $SCRIPT_NAME https://shizuku.rikka.app/introduction/"
+  exit 0
+}
+
+# Function to encode URL for use in the curl command
+encode_url() {
+  ENCODED_URL=$(echo "$URL" | sed 's/ /+/g')
+}
+
+# Function to shorten URL using v.gd API
+shorten_url() {
+  SHORTENED_URL=$(curl -s "https://v.gd/create.php?format=simple&url=$ENCODED_URL")
+  if [ -z "$SHORTENED_URL" ]; then
+    echo "Error: Failed to shorten URL" >&2
+    exit 1
+  fi
+}
+
+# Function to copy shortened URL to clipboard
+copy_to_clipboard() {
+  echo "$SHORTENED_URL" | wl-copy
+}
+
+# Function to send notification
+send_notification() {
+  dunstify "Shortened URL" "$SHORTENED_URL \n\n$URL"
+}
+
+# Function to switch to workspace 1
+switch_workspace() {
+  hyprctl dispatch workspace 1
+}
+
+# Main script logic
+main() {
+  # Show help menu if no arguments or -h/--help is provided
+  if [ -z "$1" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    show_help
+  fi
+
+  # Set URL from argument
+  URL="$1"
+
+  # Encode URL for use in curl command
+  encode_url
+
+  # Shorten URL using v.gd API
+  shorten_url
+
+  # Copy shortened URL to clipboard
+  copy_to_clipboard
+
+  # Send notification with shortened URL
+  send_notification
+}
+
+# Execute main function
+main "$@"

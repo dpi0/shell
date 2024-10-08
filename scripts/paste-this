@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# Global variables
+SCRIPT_NAME=$(basename "$0")
+FILE_PATH=""
+URL=""
+URL_WITH_EXTENSION=""
+UPLOAD_URL="https://bin.dpi0.cloud"
+
+# Function to display help menu
+show_help() {
+  echo "Usage: $SCRIPT_NAME <file_path>"
+  echo "Upload a file to the server and append the file extension to the URL."
+  echo ""
+  echo "Options:"
+  echo "  -h, --help  Show this help message and exit"
+  echo ""
+  echo "Example: $SCRIPT_NAME /path/to/file.extension"
+  exit 0
+}
+
+# Function to check if a file exists
+check_file_exists() {
+  if [ ! -f "$FILE_PATH" ]; then
+    echo "Error: File not found at $FILE_PATH" >&2
+    exit 1
+  fi
+}
+
+# Function to get file extension
+get_file_extension() {
+  local file="$1"
+  local extension="${file##*.}"
+  if [ -z "$extension" ]; then
+    echo "Error: File has no extension" >&2
+    exit 1
+  fi
+  echo "$extension"
+}
+
+# Function to upload file and get URL
+upload_file() {
+  if ! URL=$(curl --silent -X PUT --data-binary @"$FILE_PATH" $UPLOAD_URL); then
+    echo "Error: Failed to upload file" >&2
+    exit 1
+  fi
+}
+
+# Function to append file extension to URL
+append_extension_to_url() {
+  URL_WITH_EXTENSION="${URL}.${EXTENSION}"
+}
+
+# Function to copy URL to clipboard and notify user
+copy_and_notify() {
+  wl-copy "$URL_WITH_EXTENSION"
+  notify-send "File Uploaded! $URL_WITH_EXTENSION" -i "$FILE_PATH"
+}
+
+# Main script logic
+main() {
+  # Show help menu if no arguments or -h/--help is provided
+  if [ -z "$1" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    show_help
+  fi
+
+  # Set file path
+  FILE_PATH="$1"
+
+  # Check if file path is provided
+  if [ -z "$FILE_PATH" ]; then
+    echo "Error: Please provide a file path" >&2
+    exit 1
+  fi
+
+  # Check if file exists
+  check_file_exists
+
+  # Get file extension
+  EXTENSION=$(get_file_extension "$FILE_PATH")
+
+  # Upload file and get URL
+  upload_file
+
+  # Append file extension to URL
+  append_extension_to_url
+
+  # Output URL with extension, copy to clipboard, and notify user
+  echo "File pasted successfully! URL: $URL_WITH_EXTENSION"
+  copy_and_notify
+}
+
+# Execute main function
+main "$@"
