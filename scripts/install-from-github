@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+# Global variables
+SCRIPT_NAME=$(basename "$0")
+INSTALL_DIR="$HOME/Applications"
+ARCHIVE_DIR="$INSTALL_DIR/Downloaded-Archives"
+REPO_OWNER=""
+REPO_NAME=""
+ARCHIVE_NAME=""
+
+# Function to handle errors
+handle_error() {
+    echo "Error: $1"
+    exit 1
+}
+
+# Function to display help menu
+display_help() {
+    echo "usage: $SCRIPT_NAME <owner/repo> <archive.tar.xxx>"
+    echo ""
+    echo "Download and extract the latest release from a GitHub repository."
+    echo ""
+    echo "options:"
+    echo "  <owner/repo>                 github repository owner and name."
+    echo "  <archive.tar.xxx>            name of the archive to download."
+    echo ""
+    echo "examples:"
+    echo "  $SCRIPT_NAME jesseduffield/lazydocker lazydocker_0.23.3_Linux_arm64.tar.gz"
+    exit 0
+}
+
+# Function to check if required tools are installed
+check_required_tools() {
+    local required_tools=("wget" "jq" "ouch")
+    local missing_tools=()
+
+    for tool in "${required_tools[@]}"; do
+        if ! command -v "$tool" &> /dev/null; then
+            missing_tools+=("$tool")
+        fi
+    done
+
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "Error: The following required tools are not installed:"
+        for tool in "${missing_tools[@]}"; do
+            echo "  - $tool"
+        done
+        exit 1
+    fi
+}
+
+# Parse command line arguments
+parse_arguments() {
+    if [[ "$#" -lt 2 ]]; then
+        display_help
+    fi
+
+    IFS='/' read -r REPO_OWNER REPO_NAME <<< "$1"
+    ARCHIVE_NAME="$2"
+}
+
+# Ensure the destination directory exists
+create_destination_directory() {
+    mkdir -p "$ARCHIVE_DIR" || handle_error "Failed to create archive directory."
+    mkdir -p "$INSTALL_DIR" || handle_error "Failed to create install directory."
+}
+
+# Get the latest release version
+get_latest_release_version() {
+    latest_version=$(wget -qO- "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest" | jq -r '.tag_name')
+    if [[ -z "$latest_version" ]]; then
+        handle_error "Failed to retrieve the latest release version."
+    fi
+}
+
+# Download the archive
+download_archive() {
+    if [[ -f "$ARCHIVE_DIR/$ARCHIVE_NAME" ]]; then
+        echo "Archive $ARCHIVE_NAME already exists in $ARCHIVE_DIR. Skipping download."
+    else
+        echo "Downloading $ARCHIVE_NAME from $REPO_OWNER/$REPO_NAME release $latest_version..."
+        wget -q -O "$ARCHIVE_DIR/$ARCHIVE_NAME" "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$latest_version/$ARCHIVE_NAME" || handle_error "Failed to download the archive."
+    fi
+}
+
+# Decompress the archive using ouch
+decompress_archive() {
+    local extracted_dir="${ARCHIVE_NAME%.tar.*}"
+    if [[ -d "$INSTALL_DIR/$extracted_dir" ]]; then
+        echo "Extracted directory $extracted_dir already exists in $INSTALL_DIR. Skipping extraction."
+    else
+        echo "Decompressing $ARCHIVE_NAME to $INSTALL_DIR..."
+        ouch decompress "$ARCHIVE_DIR/$ARCHIVE_NAME" -d "$INSTALL_DIR" || handle_error "Failed to decompress the archive."
+    fi
+}
+
+# Main function to orchestrate the script
+main() {
+    check_required_tools
+    parse_arguments "$@"
+    create_destination_directory
+    get_latest_release_version
+    download_archive
+    decompress_archive
+    echo "Done. Extracted $ARCHIVE_NAME to $INSTALL_DIR."
+}
+
+# Execute the main function
+main "$@"
