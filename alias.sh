@@ -25,6 +25,7 @@ alias Wall='cd $HOME/Wallpapers/'
 alias Notes='cd $HOME/Notes/'
 alias Books='cd $HOME/Books/'
 alias fd='fd -H'
+alias password="< /dev/urandom tr -dc 'A-Za-z0-9' | head -c32"
 
 #alias rm="rm -iv"
 
@@ -46,7 +47,7 @@ alias sudoEs='sudo -E -s'
 alias l="eza --icons -a -l --time-style relative --changed"
 alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
 alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
-alias ll="eza --icons -l"
+alias ll="eza --icons -l --time-style relative --changed"
 alias ls="l"
 alias lg="l -g"
 alias lt="eza --icons -a -T"
@@ -133,6 +134,8 @@ alias dvi="docker volume inspect"
 alias dvc="docker volume create"
 alias dvr="docker volume rm"
 alias dvp="docker volume prune"
+
+alias list-named-vol="docker volume ls | rg -v '^local\s+[a-f0-9]{64}$' | tail -n +2 | awk '{print $2}'"
 
 # Kubernetes aliases
 alias mk="minikube"
@@ -323,12 +326,12 @@ alias pc='sudo pacman -Rc' # Remove the specified package along with its configu
 alias pu='sudo pacman -Ru' # Remove the specified package and its unneeded dependencies. It is more aggressive than -Rs in removing dependencies "u" unneeded packages.
 alias prsu='sudo pacman -Rsu' # remove a package from the system, including its dependencies that are not required by any other installed package "u" unneeded packages,
 alias prsun='sudo pacman -Rsun' # remove the package, "s" unnecessary dependencies, "u" unneeded packages, "n" it's config files
-alias pch='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
+alias pcheck='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
 alias pqi='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
-alias pchf='pacman -Ql' # What files does this package have? i.e., pcheckfiles
+alias pcheckfiles='pacman -Ql' # What files does this package have? i.e., pcheckfiles
 alias pql='pacman -Ql' # What files does this package have? i.e., pcheckfiles
-alias pcho='pacman -Qo' # Who owns this package? i.e., pcheckowner
 alias pqo='pacman -Qo' # Who owns this package? i.e., pcheckowner
+alias pcheckowner='pacman -Qo' # Who owns this package? i.e., pcheckowner
 alias pr_unneeded='sudo pacman -Rns $(pacman -Qdtq)' # Uninstall unneeded packages
 alias pq='pacman -Q' # List all installed packages on the system along with their version numbers.
 alias pqu='pacman -Qu' # List all packages that have updates available in the repositories.

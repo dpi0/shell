@@ -154,6 +154,32 @@ run = "plugin bookmarks --args=save"
 desc = "Save current position as a bookmark"
 
 [[manager.prepend_keymap]]
+on   = [ "g", "i" ]
+run  = "plugin lazygit"
+desc = "run lazygit"
+
+[[manager.prepend_keymap]]
+on = [ "f", "d" ]
+run  = "plugin diff"
+desc = "Diff the selected with the hovered file"
+
+[[manager.prepend_keymap]]
+on   = [ "c", "m" ]
+run  = "plugin chmod"
+desc = "Chmod on selected files"
+
+[[manager.prepend_keymap]]
+on = [ "g", "r" ]
+run = '''
+shell 'ya pub dds-cd --str "$(git rev-parse --show-toplevel)"' --confirm
+'''
+
+[[manager.prepend_keymap]]
+on   = "T"
+run  = "plugin --sync max-preview"
+desc = "Maximize or restore preview"
+
+[[manager.prepend_keymap]]
 on = [ "'" ]
 run = "plugin bookmarks --args=jump"
 desc = "Jump to a bookmark"
@@ -262,7 +288,7 @@ keymap = [
 	{ on = "<Backspace>", run = "backspace",	       desc = "Delete the character before the cursor" },
 	{ on = "<Delete>",    run = "backspace --under", desc = "Delete the character under the cursor" },
 	{ on = "<C-h>",       run = "backspace",         desc = "Delete the character before the cursor" },
-	{ on = "<C-d>",       run = "backspace --under", desc = "Delete the character under the cursor" },
+	#{ on = "<C-d>",       run = "backspace --under", desc = "Delete the character under the cursor" },
 
 	# Kill
 	{ on = "<C-u>", run = "kill bol",      desc = "Kill backwards to the BOL" },

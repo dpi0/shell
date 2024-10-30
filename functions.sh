@@ -25,6 +25,22 @@ copybuffer() {
     fi
 }
 
+count_files() {
+    local dir="${1:-$(pwd)}"
+    local group=false
+
+    if [ "$1" = "-g" ] || [ "$1" = "--group" ]; then
+        group=true
+        dir="${2:-$(pwd)}"
+    fi
+
+    if $group; then
+        fd -H -t f . "$dir" | awk -F. '{ext = $NF; if (ext != $0) {count[ext]++}} END {for (ext in count) print ext, count[ext]}'
+    else
+        fd -H . "$dir" | wc -l
+    fi
+}
+
 speedtest_curl(){
 	curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
 }
@@ -168,6 +184,34 @@ ss() {
     else
         echo "No file selected"
     fi
+}
+
+remove_variable_from_history() {
+    local var_to_remove="$1"
+    local temp_file=$(mktemp)
+
+    # Use ripgrep to find lines containing the variable and list them
+    local found_lines=$(rg --color=always "$var_to_remove" ~/.zsh_history)
+
+    if [[ -z "$found_lines" ]]; then
+        echo "No lines containing '$var_to_remove' found in ~/.zsh_history."
+        return
+    fi
+
+    # Display the found lines
+    echo "The following lines will be deleted:"
+    echo "$found_lines"
+
+    # Use ripgrep to exclude lines containing the variable and write to the temporary file
+    rg -v "$var_to_remove" ~/.zsh_history > "$temp_file"
+
+    # Overwrite the original history file with the cleaned version
+    mv "$temp_file" ~/.zsh_history
+
+    echo "Deleted $(echo "$found_lines" | wc -l) lines containing '$var_to_remove'."
+
+    # Reload the shell
+    exec zsh
 }
 
 fh() {
