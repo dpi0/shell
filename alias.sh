@@ -17,7 +17,8 @@ alias lf="yazi"
 alias notes="note"
 alias send-to-phone="qrcp"
 alias rm='echo "This is a dangerous command. Use trash instead."'
-alias Dow='cd $HOME/Downloads/'
+alias Down='cd $HOME/Downloads/'
+alias App='cd $HOME/Applications/'
 alias Scr='cd $HOME/Screenshots/'
 alias dev='cd $HOME/dev/'
 alias Back='cd $HOME/Backup/'
@@ -26,6 +27,8 @@ alias Notes='cd $HOME/Notes/'
 alias Books='cd $HOME/Books/'
 alias fd='fd -H'
 alias password="< /dev/urandom tr -dc 'A-Za-z0-9' | head -c32"
+alias delete_from_clipboard="cliphist list | fzf --no-sort | cliphist delete"
+alias clipboard="cliphist list | fzf --no-sort | cliphist decode | wl-copy"
 
 #alias rm="rm -iv"
 
@@ -74,6 +77,8 @@ alias disk="duf"
 alias size="gdu"
 alias play="mpv"
 alias lz=lazygit
+alias ldd=lazydocker
+alias dox=oxker
 alias v=nvim
 alias sv="sudo vim"
 alias ex="extract"

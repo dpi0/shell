@@ -13,7 +13,7 @@ return {
 				-- position = "left",
 				position = "right",
 				-- mode = "vertical",
-				width = 0.7,
+				width = 0.8,
 				height = 0.8,
 			})
 
