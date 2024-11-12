@@ -175,6 +175,11 @@ shell 'ya pub dds-cd --str "$(git rev-parse --show-toplevel)"' --confirm
 '''
 
 [[manager.prepend_keymap]]
+on   = [ "s", "s" ]
+run  = "plugin what-size"
+desc = "Calc size of selection or cwd"
+
+[[manager.prepend_keymap]]
 on   = "T"
 run  = "plugin --sync max-preview"
 desc = "Maximize or restore preview"

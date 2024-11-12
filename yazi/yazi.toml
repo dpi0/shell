@@ -38,6 +38,9 @@ open = [
 	{ run = 'open "$@"',                    desc = "Open", for = "macos" },
 	{ run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
+open_pdf = [
+	{ run = 'evince "$1"',                desc = "Open PDF with Evince", for = "linux" },
+]
 reveal = [
 	{ run = 'xdg-open "$(dirname "$1")"',           desc = "Reveal", for = "linux" },
 	{ run = 'open -R "$1"',                         desc = "Reveal", for = "macos" },
@@ -78,6 +81,8 @@ rules = [
 
 prepend_rules = [
 	{ name = "*.json", use = "edit" },
+
+	{ name = "*.pdf", use = "open_pdf" },
 
 	# Multiple openers for a single rule
 	{ name = "*.html", use = [ "open", "edit" ] },

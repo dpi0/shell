@@ -1,3 +1,7 @@
+lfs() {
+    sudo yazi
+}
+
 copydir() {
     # Check if wl-copy is installed
     if command -v wl-copy &> /dev/null; then
