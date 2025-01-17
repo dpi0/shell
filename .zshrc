@@ -1,3 +1,7 @@
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi
+
 # Change prompt if the hostname is not arch
 if [[ "$(cat /etc/hostname)" != "arch" ]]; then
     PROMPT="%F{#009dff}%n%F{#00ff59}@%m %F{#ffea00}in %~ %F{reset}$ "

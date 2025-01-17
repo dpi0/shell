@@ -29,6 +29,9 @@ alias fd='fd -H'
 alias password="< /dev/urandom tr -dc 'A-Za-z0-9' | head -c32"
 alias delete_from_clipboard="cliphist list | fzf --no-sort | cliphist delete"
 alias clipboard="cliphist list | fzf --no-sort | cliphist decode | wl-copy"
+alias ram='ps axch -o cmd:15,%mem --sort=-%mem | head'
+alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
+alias mhz='watch -n 1 "cat /proc/cpuinfo | grep MHz"'
 
 #alias rm="rm -iv"
 
