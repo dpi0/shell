@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "Reledia/glow", rev = "4e016fa" }, { use = "dedukun/bookmarks", rev = "600f87c" }, { use = "Ape/mediainfo", rev = "c69314e" }, { use = "Tyarel8/video-ffmpeg", rev = "fe26a18" }, { use = "yazi-rs/plugins:max-preview", rev = "591db0e" }, { use = "yazi-rs/plugins:diff", rev = "591db0e" }, { use = "yazi-rs/plugins:chmod", rev = "591db0e" }, { use = "pirafrank/what-size", rev = "f08f7f2" }]
+deps = [{ use = "Reledia/glow", rev = "4e016fa" }, { use = "dedukun/bookmarks", rev = "600f87c" }, { use = "Ape/mediainfo", rev = "c69314e" }, { use = "Tyarel8/video-ffmpeg", rev = "fe26a18" }, { use = "yazi-rs/plugins:max-preview", rev = "591db0e" }, { use = "pirafrank/what-size", rev = "b23e3a4" }, { use = "yazi-rs/plugins:chmod", rev = "f202fa8" }, { use = "yazi-rs/plugins:diff", rev = "f202fa8" }]
 
 [flavor]
 deps = [{ use = "yazi-rs/flavors:catppuccin-frappe", rev = "d479f67" }]

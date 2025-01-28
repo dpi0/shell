@@ -1,14 +1,14 @@
 local M = {}
 
-function M:peek(job)
+function M:peek()
   local child = Command("ouch")
-      :args({ "l", "-t", "-y", tostring(job.file.url) })
+      :args({ "l", "-t", "-y", tostring(self.file.url) })
       :stdout(Command.PIPED)
       :stderr(Command.PIPED)
       :spawn()
-  local limit = job.area.h
-  local file_name = string.match(tostring(job.file.url), ".*[/\\](.*)")
-  local lines = string.format("📁 \x1b[2m%s\x1b[0m\n", file_name)
+  local limit = self.area.h
+  local file_name = string.match(tostring(self.file.url), ".*[/\\](.*)")
+  local lines = string.format("\x1b[2m📁 %s\x1b[0m\n", file_name)
   local num_lines = 1
   local num_skip = 0
   repeat
@@ -20,7 +20,7 @@ function M:peek(job)
     end
 
     if line:find('Archive', 1, true) ~= 1 and line:find('[INFO]', 1, true) ~= 1 then
-      if num_skip >= job.skip then
+      if num_skip >= self.skip then
         lines = lines .. line
         num_lines = num_lines + 1
       else
@@ -30,23 +30,23 @@ function M:peek(job)
   until num_lines >= limit
 
   child:start_kill()
-  if job.skip > 0 and num_lines < limit then
+  if self.skip > 0 and num_lines < limit then
     ya.manager_emit(
       "peek",
-      { tostring(math.max(0, job.skip - (limit - num_lines))), only_if = tostring(job.file.url), upper_bound = "" }
+      { tostring(math.max(0, self.skip - (limit - num_lines))), only_if = tostring(self.file.url), upper_bound = "" }
     )
   else
-    ya.preview_widgets(job, { ui.Text(lines):area(job.area) })
+    ya.preview_widgets(self, { ui.Paragraph.parse(self.area, lines) })
   end
 end
 
-function M:seek(job)
+function M:seek(units)
   local h = cx.active.current.hovered
-  if h and h.url == job.file.url then
-    local step = math.floor(job.units * job.area.h / 10)
+  if h and h.url == self.file.url then
+    local step = math.floor(units * self.area.h / 10)
     ya.manager_emit("peek", {
       math.max(0, cx.active.preview.skip + step),
-      only_if = tostring(job.file.url),
+      only_if = tostring(self.file.url),
     })
   end
 end
@@ -110,10 +110,8 @@ local function invoke_compress_command(paths, name)
   end
 end
 
-function M:entry(job)
-  local default_fmt = job.args[1]
-
-  ya.manager_emit("escape", { visual = true })
+function M:entry(args)
+  local default_fmt = args[1]
 
   -- Get the files that need to be compressed and infer a default archive name
   local paths, default_name = get_compression_target()
