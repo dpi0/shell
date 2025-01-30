@@ -32,6 +32,8 @@ alias clipboard="cliphist list | fzf --no-sort | cliphist decode | wl-copy"
 alias ram='ps axch -o cmd:15,%mem --sort=-%mem | head'
 alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
 alias mhz='watch -n 1 "cat /proc/cpuinfo | grep MHz"'
+alias lightmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-light''
+alias darkmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark''
 
 #alias rm="rm -iv"
 
