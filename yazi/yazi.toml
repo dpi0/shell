@@ -6,8 +6,7 @@ sort_sensitive = false
 sort_reverse 	 = false
 sort_dir_first = true
 sort_translit  = false
-linemode       = "size_and_mtime"
-#linemode       = "size"
+linemode = "size"
 show_hidden    = false
 show_symlink   = true
 scrolloff      = 5
@@ -54,7 +53,7 @@ extract = [
 play = [
 	{ run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
 	{ run = 'mpv --force-window %*', orphan = true, for = "windows" },
-	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+	#{ run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 
 [open]
@@ -121,7 +120,7 @@ preloaders = [
 	{ mime = "application/vnd.ms-opentype", run = "font" },
 ]
 prepend_previewers = [
-        { name = "*.md", run = "glow" },
+        #{ name = "*.md", run = "glow" },
         # Archive previewer
 	{ mime = "application/*zip",            run = "ouch" },
 	{ mime = "application/x-tar",           run = "ouch" },
@@ -129,10 +128,10 @@ prepend_previewers = [
 	{ mime = "application/x-7z-compressed", run = "ouch" },
 	{ mime = "application/x-rar",           run = "ouch" },
 	{ mime = "application/x-xz",            run = "ouch" },
-        { mime = "{image,audio,video}/*", run = "mediainfo"},
+        #{ mime = "{image,audio,video}/*", run = "mediainfo"},
         # { mime = "video/*", run = "video-ffmpeg" },
-        { mime = "application/x-subrip", run = "mediainfo"},
-	{ name = "*/", run = "eza-preview" },
+        #{ mime = "application/x-subrip", run = "mediainfo"},
+	#{ name = "*/", run = "eza-preview" },
 ]
 previewers = [
 	{ name = "*/", run = "folder", sync = true },

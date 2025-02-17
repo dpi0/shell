@@ -1,7 +1,7 @@
 [manager]
 
 keymap = [
-	{ on = [ "E" ], run = "plugin eza-preview",  desc = "Toggle tree/list dir preview" },
+	#{ on = [ "E" ], run = "plugin eza-preview",  desc = "Toggle tree/list dir preview" },
 	{ on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selected, or cancel search" },
 	{ on = "<C-[>", run = "escape",             desc = "Exit visual mode, clear selected, or cancel search" },
 	{ on = "q",     run = "quit",               desc = "Exit the process" },
@@ -26,8 +26,8 @@ keymap = [
 	{ on = "<PageUp>",     run = "arrow -100%", desc = "Move cursor up one page" },
 	{ on = "<PageDown>",   run = "arrow 100%",  desc = "Move cursor down one page" },
 
-	{ on = [ "g", "g" ], run = "arrow -99999999", desc = "Move cursor to the top" },
-	{ on = "G",          run = "arrow 99999999",  desc = "Move cursor to the bottom" },
+	{ on = [ "g", "g" ], run = "arrow top", desc = "Move cursor to the top" },
+	{ on = "G",          run = "arrow bot",  desc = "Move cursor to the bottom" },
 
 	# Navigation
 	{ on = "h", run = "leave", desc = "Go back to the parent directory" },
@@ -147,11 +147,6 @@ keymap = [
 	{ on = "~",    run = "help", desc = "Open help" },
 	{ on = "<F1>", run = "help", desc = "Open help" },
 ]
-
-[[manager.prepend_keymap]]
-on = [ "m" ]
-run = "plugin bookmarks --args=save"
-desc = "Save current position as a bookmark"
 
 [[manager.prepend_keymap]]
 on   = [ "g", "i" ]
