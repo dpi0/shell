@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+# File to store tmux session layout
+LAYOUT_FILE="$HOME/.tmux_layout"
+
+# Function to save tmux session layout
+save_tmux_session() {
+    tmux list-windows -a -F '#{session_name}:#{window_index}:#{window_name}:#{window_active}:#{pane_index}:#{pane_active}:#{pane_current_path}:#{pane_command}' > $LAYOUT_FILE
+    echo "Tmux session layout saved to $LAYOUT_FILE"
+}
+
+# Function to list saved sessions
+list_tmux_sessions() {
+    if [ -f $LAYOUT_FILE ]; then
+        cut -d: -f1 $LAYOUT_FILE | sort | uniq
+    else
+        echo "No saved tmux layout found in $LAYOUT_FILE"
+    fi
+
+    echo -e "---"
+
+    cat $HOME/.tmux_layout
+}
+
+# Function to restore a specified tmux session layout
+restore_tmux_session() {
+    local target_session="$1"
+    if [ -z "$target_session" ]; then
+        echo "Please specify a session name to restore."
+        exit 1
+    fi
+
+    if [ -f $LAYOUT_FILE ]; then
+        grep "^$target_session:" $LAYOUT_FILE | while IFS=: read -r session_name window_index window_name window_active pane_index pane_active pane_current_path pane_command; do
+            # Check if the session exists
+            if ! tmux has-session -t "$session_name" 2>/dev/null; then
+                tmux new-session -d -s "$session_name" -c "$pane_current_path"
+            fi
+            
+            # Check if the window exists
+            if ! tmux list-windows -t "$session_name" | grep -q "^$window_index:"; then
+                tmux new-window -t "$session_name:$window_index" -n "$window_name" -c "$pane_current_path"
+            fi
+
+            # Check if the pane exists
+            if ! tmux list-panes -t "$session_name:$window_index" | grep -q "^$pane_index:"; then
+                tmux split-window -t "$session_name:$window_index" -c "$pane_current_path"
+            fi
+
+            # Select the active pane
+            if [ "$pane_active" -eq 1 ]; then
+                tmux select-pane -t "$session_name:$window_index.$pane_index"
+            fi
+
+            # Select the active window
+            if [ "$window_active" -eq 1 ]; then
+                tmux select-window -t "$session_name:$window_index"
+            fi
+
+        done
+
+        echo "Tmux session '$target_session' layout restored from $LAYOUT_FILE"
+    else
+        echo "No saved tmux layout found in $LAYOUT_FILE"
+    fi
+}
+
+# Main script logic
+case "$1" in
+    save)
+        save_tmux_session
+        ;;
+    list)
+        list_tmux_sessions
+        ;;
+    restore)
+        restore_tmux_session "$2"
+        ;;
+    *)
+        echo "Usage: $0 {save|list|restore <session_name>}"
+        exit 1
+        ;;
+esac
