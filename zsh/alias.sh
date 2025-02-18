@@ -6,8 +6,6 @@ alias .....='cd ../../../..'
 alias md='mkdir -p'
 alias bd='cd "$OLDPWD"'
 alias vf='rga-fzf'
-alias cp='rsync -avh --progress --itemize-changes --stats'
-alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats'
 alias rec='asciinema rec'
 alias img='loupe'
 alias image='loupe'
@@ -16,7 +14,6 @@ alias copy="wl-copy"
 alias lf="yazi"
 alias notes="note"
 alias send-to-phone="qrcp"
-alias rm='echo "This is a dangerous command. Use trash instead."'
 alias Down='cd $HOME/Downloads/'
 alias App='cd $HOME/Applications/'
 alias Scr='cd $HOME/Screenshots/'
@@ -36,6 +33,15 @@ alias lightmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-
 alias darkmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark''
 alias svim="sudo -E vim"
 
+if command -v trash &>/dev/null; then
+    alias rm='echo "This is a dangerous command. Use trash instead."'
+fi
+
+if command -v rsync &>/dev/null; then
+    alias cp='rsync -avh --progress --itemize-changes --stats'
+    alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats'
+fi
+
 #alias rm="rm -iv"
 
 # remove all dir and all it's files
@@ -53,13 +59,16 @@ alias 777='chmod -R 777'
 
 alias sudoEs='sudo -E -s'
 
-alias l="eza --icons -a -l --time-style relative --changed"
-alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
-alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
-alias ll="eza --icons -l --time-style relative --changed"
-alias ls="l"
-alias lg="l -g"
-alias lt="eza --icons -a -T"
+if command -v eza &>/dev/null; then
+    alias l="eza --icons -a -l --time-style relative --changed"
+    alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
+    alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
+    alias ll="eza --icons -l --time-style relative --changed"
+    alias lt="eza --icons -a -T"
+    alias tree="eza --tree --long"
+    alias ls="l"
+    alias lg="l -g"
+fi
 alias br="broot -s"
 
 alias crnew="crontab -e"
@@ -67,13 +76,14 @@ alias scrnew="sudo crontab -e"
 alias crlist="crontab -l"
 
 alias c="bat"
-alias cat="bat"
+if command -v bat &>/dev/null; then
+    alias cat="bat"
+fi
 alias h="history -E 1"
 alias j="ji"
 alias jj="cd ~"
-alias tree="eza --tree --long"
 alias re="source ~/.zshrc && exec zsh"
-alias tre="tmux source-file $HOME/zsh/.tmux.conf"
+alias tre="tmux source-file $HOME/shell/.tmux.conf"
 alias i="feh -Fd"
 alias ufw="sudo ufw"
 alias dw="aria2c"
@@ -396,4 +406,3 @@ alias tn="tmux new-session -s"
 alias tk="tmux kill-session -t"
 alias tka="tmux kill-server"
 alias tks="tmux kill-server"
-

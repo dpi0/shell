@@ -32,7 +32,9 @@ export VOLUMES="$HOME/docker_volumes"
 export EDITOR="/usr/bin/nvim"
 export GPG_TTY=$(tty)
 export PIPENV_VENV_IN_PROJECT=0
-export LS_COLORS="$(vivid generate molokai)"
+if command -v vivid &>/dev/null; then
+    export LS_COLORS="$(vivid generate molokai)"
+fi
 #export WALLPAPER="$HOME/Downloads/starligher-spaceship-sunset.jpeg"
 
 if command -v go &> /dev/null; then
@@ -70,4 +72,3 @@ export FZF_ALT_C_OPTS="
 # --- RUBY GEMS ---
 # export GEM_HOME="$(gem env user_gemhome)"
 # export PATH="$PATH:$GEM_HOME/bin"
-
