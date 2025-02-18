@@ -10,10 +10,10 @@ else
     if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
         source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
     fi
-	source $HOME/powerlevel10k/powerlevel10k.zsh-theme
+	source $HOME/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 fi
 
-export ZSHROOT="$HOME/zsh"
+export ZSHROOT="$HOME/shell/zsh"
 export DOTFILES="$HOME/.dotfiles"
 
 source $ZSHROOT/options.sh

@@ -34,6 +34,7 @@ alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
 alias mhz='watch -n 1 "cat /proc/cpuinfo | grep MHz"'
 alias lightmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-light''
 alias darkmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark''
+alias svim="sudo -E vim"
 
 #alias rm="rm -iv"
 

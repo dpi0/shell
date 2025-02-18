@@ -55,3 +55,15 @@ bindkey '^[[B' history-substring-search-down
 
 bindkey -s '^[v' 'v .^M'
 bindkey -s '^[c' 'code .^M'
+
+# Bind Shift+HJKL to cursor movements
+#bindkey -s '^[H' '^[OA'  # Shift+H -> Up
+#bindkey -s '^[J' '^[OB'  # Shift+J -> Down
+#bindkey -s '^[K' '^[OC'  # Shift+K -> Right
+#bindkey -s '^[L' '^[OD'  # Shift+L -> Left
+
+# Bind Ctrl+k to history up (previous command)
+bindkey '^k' up-line-or-history
+
+# Bind Ctrl+j to history down (next command)
+bindkey '^j' down-line-or-history
