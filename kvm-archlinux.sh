@@ -46,7 +46,7 @@ check_uefi() {
 }
 
 setup_preliminary() {
-  echo -e "${GREEN}>>> Preliminary setup...${RESET}"
+  echo -e "${GREEN}>>> Preliminary setup: font, keyboard, time, date and package mirrors...${RESET}"
   setfont "$FONT"
   loadkeys "$KEYMAP"
   timedatectl set-timezone "$TIMEZONE"
@@ -57,30 +57,26 @@ setup_preliminary() {
 }
 
 create_partitions() {
-  echo -e "${CYAN}>>> Creating Partitions...${RESET}"
+  echo -e "${CYAN}>>> Creating Partitions: /efi and /root...${RESET}"
   parted -s "$DISK" mklabel gpt
   parted -s "$DISK" mkpart primary fat32 1MiB 256MiB
   parted -s "$DISK" set 1 esp on
-  parted -s "$DISK" mkpart primary ext4 256MiB 1024MiB
-  parted -s "$DISK" set 2 bls_boot on
-  parted -s "$DISK" mkpart primary ext4 1024MiB 100%
+  parted -s "$DISK" mkpart primary ext4 256MiB 100%
   echo -e "${GREEN}Partitions created!${RESET}"
 }
 
 format_partitions() {
   echo -e "${CYAN}>>> Formatting Partitions...${RESET}"
   mkfs.fat -F32 "$DISK"1
-  mkfs.fat -F32 "$DISK"2
-  mkfs.ext4 "$DISK"3
+  mkfs.ext4 "$DISK"2
   echo -e "${GREEN}Partitions formatted!${RESET}"
 }
 
 mount_partitions() {
   echo -e "${CYAN}>>> Mounting Partitions...${RESET}"
-  mount "$DISK"3 /mnt
-  mkdir /mnt/efi /mnt/boot
-  mount "$DISK"1 /mnt/efi
-  mount "$DISK"2 /mnt/boot
+  mount "$DISK"2 /mnt
+  mkdir /mnt/boot
+  mount "$DISK"1 /mnt/boot
   echo -e "${GREEN}Partitions mounted!${RESET}"
 }
 
@@ -144,18 +140,18 @@ systemd_services() {
 
 bootloader_setup() {
   echo -e "${CYAN}>>> Installing bootloader...${RESET}"
-  bootctl --esp-path=/efi --boot-path=/boot install
+  bootctl --path=/boot install
   
   echo -e "${CYAN}>>> Configuring bootloader settings...${RESET}"
   {
     echo timeout 0
-    echo default arch.conf
+    echo default arch
     echo console-mode max
     echo editor no
   } >>/efi/loader/loader.conf
   
   echo -e "${CYAN}>>> Getting UUID for root partition...${RESET}"
-  UUID=$(blkid -s UUID -o value "$DISK"3)
+  UUID=$(blkid -s UUID -o value "$DISK"2)
 
   echo -e "${CYAN}>>> Configuring bootloader entry for Arch Linux...${RESET}"
   {
