@@ -1,6 +1,0 @@
-for keybinds look in keymap.toml
-
-- chmod.yazi - "c -> m"
-- ouch.yazi - "C"
-- what-size - "s -> s"
-- diff-view - select a single file then "f -> d" on another hovered file, diff will be copied to the clipboard
