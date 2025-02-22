@@ -16,6 +16,7 @@ setopt autocd
 fpath+=("$HOME/zsh/completion")
 autoload -Uz _rmi
 autoload -Uz compinit && compinit
+autoload -Uz add-zsh-hook
 
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"

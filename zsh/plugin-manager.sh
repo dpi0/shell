@@ -50,6 +50,9 @@ repos=(
   wfxr/forgit
   Aloxaf/fzf-tab
   zdharma-continuum/fast-syntax-highlighting
+  fdellwing/zsh-bat
+  hlissner/zsh-autopair
+  larkery/zsh-histdb
   # jeffreytse/zsh-vi-mode
 )
 
@@ -63,6 +66,9 @@ plugins=(
   zsh-syntax-highlighting
   zsh-history-substring-search
   fast-syntax-highlighting
+  zsh-bat
+  zsh-autopair
+  zsh-histdb
   # zsh-vi-mode
 )
 
