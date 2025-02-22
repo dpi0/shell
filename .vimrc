@@ -160,8 +160,8 @@ syntax on
 set clipboard=unnamedplus
 
 " Colorscheme
-" colorscheme industry
-colorscheme wildcharm
+colorscheme industry
+" colorscheme wildcharm
 set background=dark
 " hi Normal ctermbg=NONE guibg=NONE
 " hi NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
