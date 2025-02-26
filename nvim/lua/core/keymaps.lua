@@ -155,3 +155,10 @@ bind("v", ">", ">gv", "Indent right and reselect")
 -- ===========================
 vim.keymap.set("n", "<A-d>", duplicate_line_below, { desc = "Duplicate line below" })
 bind("v", "<A-d>", [[:t'>+2<CR>gv=gv]], "Duplicate selection below")
+
+-- checks if taplo is executable and sets it as the formatter for TOML files
+if vim.fn.executable("taplo") == 1 then
+  vim.bo.formatprg = "taplo fmt -"
+end
+
+vim.api.nvim_set_keymap("n", "A-C-f", "ggVGgq", { noremap = true, silent = true })

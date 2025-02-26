@@ -107,7 +107,7 @@ return {
     bind.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
     bind.set("n", "<A-S-f>", builtin.grep_string, { desc = "Find string under cursor in cwd" })
     bind.set("n", "<leader><leader>", builtin.buffers, { desc = "Find existing buffers" })
-    bind.set("n", "<A-s>", builtin.buffers, { desc = "Find existing buffers" })
+    -- bind.set("n", "<A-s>", builtin.buffers, { desc = "Find existing buffers" })
 
     vim.keymap.set("n", "<space>fb", ":Telescope file_browser<CR>")
 

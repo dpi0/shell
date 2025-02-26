@@ -31,7 +31,7 @@ return {
       toggle_telescope(harpoon:list())
     end, { desc = "Open harpoon window" })
 
-    vim.keymap.set("n", "<A-b>", function()
+    vim.keymap.set("n", "<A-m>", function()
       harpoon:list():add()
     end, { desc = "Add current buffer to harpoon list" })
 

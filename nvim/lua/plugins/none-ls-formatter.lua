@@ -20,12 +20,14 @@ return {
         "ruff", -- Python linter and formatter
         "gofmt", -- Go formatter (builtin in Go toolchain)
         "golines", -- Go formatter for line wrapping
+        -- "taplo", -- TOML formatter
       },
       automatic_installation = true,
     })
 
     local sources = {
       diagnostics.checkmake,
+      -- formatting.taplo,
 
       -- JavaScript/TypeScript/HTML/CSS/JSON
       formatting.prettier.with({

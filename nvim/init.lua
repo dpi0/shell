@@ -26,19 +26,19 @@ local plugins = {
   require("plugins.comment"), -- Simplifies code commenting.
   require("plugins.cursorline"), -- Highlights the current cursor line.
   require("plugins.gitsigns"), -- Shows Git changes in the gutter.
-  require("plugins.harpoon"), -- Quickly switch b/w multiple files.
   require("plugins.indent"), -- Displays indentation guides.
   require("plugins.lualine"), -- Statusline enhancement.
   require("plugins.multicursors"), -- Enables multiple cursors for editing.
   require("plugins.neoterm"), -- Manages terminal buffers.
   require("plugins.oil"), -- File explorer integration.
-  require("plugins.telescope"), -- Fuzzy finder and picker.
   require("plugins.todo-comments"), -- Highlights codes, comments etc
   require("plugins.which-key"), -- Displays available keybindings.
 }
 
--- Conditionally add LSP and Treesitter if hostname is "arch"
+-- Conditionally add if hostname is "arch"
 if hostname == "arch" then
+  table.insert(plugins, require("plugins.harpoon")) -- Quickly switch b/w multiple files.
+  table.insert(plugins, require("plugins.telescope")) -- Fuzzy finder and picker.
   table.insert(plugins, require("plugins.lsp")) -- Language Server Protocol.
   table.insert(plugins, require("plugins.treesitter")) -- Better syntax highlighting and code understanding.
   table.insert(plugins, require("plugins.autocompletion")) -- Autocompletion support.
