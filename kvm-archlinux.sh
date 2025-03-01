@@ -81,7 +81,7 @@ mount_partitions() {
 
 pacstrap_install() {
   echo -e "${CYAN}>>> Pacstrap${RESET}"
-  pacstrap /mnt base linux vim sudo less intel-ucode
+  pacstrap /mnt base linux-lts vim sudo less intel-ucode
   echo -e "${GREEN}Packages installed!${RESET}"
 }
 
