@@ -21,14 +21,13 @@ autoload -Uz add-zsh-hook
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.dotfiles/scripts"
-export PATH="$PATH:$HOME/zsh/scripts"
+export PATH="$PATH:$HOME/scripts"
 export PATH="$PATH:$HOME/Applications"
 export PATH="$PATH:$HOME/.deno/bin"
 export PATH="$PATH:$HOME/.nix-profile/bin"
 
 export CONFIG="$HOME/.config"
-export SCRIPTS="$DOTFILES/scripts"
-export LOCALBIN="$HOME/.local/bin"
+export SCRIPTS="$HOME/scripts"
 export VOLUMES="$HOME/docker_volumes"
 export EDITOR="/usr/bin/nvim"
 export GPG_TTY=$(tty)

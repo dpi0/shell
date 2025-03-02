@@ -31,15 +31,17 @@ alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
 alias mhz='watch -n 1 "cat /proc/cpuinfo | grep MHz"'
 alias lightmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-light''
 alias darkmode='gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark''
-alias svim="sudo -E vim"
+alias svim="sudo -E nvim"
+alias vim="nvim"
+alias clear-clipboard='cliphist wipe'
 
-if command -v trash &>/dev/null; then
-    alias rm='echo "This is a dangerous command. Use trash instead."'
+if command -v trash &> /dev/null; then
+  alias rm='echo "This is a dangerous command. Use trash instead."'
 fi
 
-if command -v rsync &>/dev/null; then
-    alias cp='rsync -avh --progress --itemize-changes --stats'
-    alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats'
+if command -v rsync &> /dev/null; then
+  alias cp='rsync -avh --progress --itemize-changes --stats'
+  alias mvv='rsync -avh --remove-source-files --progress --itemize-changes --stats'
 fi
 
 #alias rm="rm -iv"
@@ -59,15 +61,15 @@ alias 777='chmod -R 777'
 
 alias sudoEs='sudo -E -s'
 
-if command -v eza &>/dev/null; then
-    alias l="eza --icons -a -l --time-style relative --changed"
-    alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
-    alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
-    alias ll="eza --icons -l --time-style relative --changed"
-    alias lt="eza --icons -a -T"
-    alias tree="eza --tree --long"
-    alias ls="l"
-    alias lg="l -g"
+if command -v eza &> /dev/null; then
+  alias l="eza --icons -a -l --time-style relative --changed"
+  alias lm="eza --icons -a -l --time-style '+%d %b - %H:%M:%S' --changed"
+  alias lc="eza --icons -a -l --time-style relative --changed --sort=changed --reverse"
+  alias ll="eza --icons -l --time-style relative --changed"
+  alias lt="eza --icons -a -T"
+  alias tree="eza --tree --long"
+  alias ls="l"
+  alias lg="l -g"
 fi
 alias br="broot -s"
 
@@ -76,8 +78,8 @@ alias scrnew="sudo crontab -e"
 alias crlist="crontab -l"
 
 alias c="bat"
-if command -v bat &>/dev/null; then
-    alias cat="bat"
+if command -v bat &> /dev/null; then
+  alias cat="bat"
 fi
 alias h="history -E 1"
 alias j="ji"
@@ -337,35 +339,35 @@ alias gwtrm='git worktree remove'
 
 # PACMAN
 
-alias p='pacman' # alias for "paru -Syu"
-alias pi='sudo pacman -S' # Update/Install a specific package
-alias pqua='sudo pacman -Qua' # Show all available AUR updates
-alias pr='sudo pacman -R' # remove the package only
-alias prs='sudo pacman -Rs' # Remove a package and its dependencies that are not required by any other installed packages "s" unnecessary dependencies,
-alias pn='sudo pacman -Rn' # Remove the specified package and its configuration files "n" it's config files
-alias pc='sudo pacman -Rc' # Remove the specified package along with its configuration files. It also removes dependencies that are not required by other installed packages
-alias pu='sudo pacman -Ru' # Remove the specified package and its unneeded dependencies. It is more aggressive than -Rs in removing dependencies "u" unneeded packages.
-alias prsu='sudo pacman -Rsu' # remove a package from the system, including its dependencies that are not required by any other installed package "u" unneeded packages,
-alias prsun='sudo pacman -Rsun' # remove the package, "s" unnecessary dependencies, "u" unneeded packages, "n" it's config files
-alias pcheck='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
-alias pqi='pacman -Qi' # Detailed information about a specific installed package i.e., pcheck
-alias pcheckfiles='pacman -Ql' # What files does this package have? i.e., pcheckfiles
-alias pql='pacman -Ql' # What files does this package have? i.e., pcheckfiles
-alias pqo='pacman -Qo' # Who owns this package? i.e., pcheckowner
-alias pcheckowner='pacman -Qo' # Who owns this package? i.e., pcheckowner
+alias p='pacman'                                     # alias for "paru -Syu"
+alias pi='sudo pacman -S'                            # Update/Install a specific package
+alias pqua='sudo pacman -Qua'                        # Show all available AUR updates
+alias pr='sudo pacman -R'                            # remove the package only
+alias prs='sudo pacman -Rs'                          # Remove a package and its dependencies that are not required by any other installed packages "s" unnecessary dependencies,
+alias pn='sudo pacman -Rn'                           # Remove the specified package and its configuration files "n" it's config files
+alias pc='sudo pacman -Rc'                           # Remove the specified package along with its configuration files. It also removes dependencies that are not required by other installed packages
+alias pu='sudo pacman -Ru'                           # Remove the specified package and its unneeded dependencies. It is more aggressive than -Rs in removing dependencies "u" unneeded packages.
+alias prsu='sudo pacman -Rsu'                        # remove a package from the system, including its dependencies that are not required by any other installed package "u" unneeded packages,
+alias prsun='sudo pacman -Rsun'                      # remove the package, "s" unnecessary dependencies, "u" unneeded packages, "n" it's config files
+alias pcheck='pacman -Qi'                            # Detailed information about a specific installed package i.e., pcheck
+alias pqi='pacman -Qi'                               # Detailed information about a specific installed package i.e., pcheck
+alias pcheckfiles='pacman -Ql'                       # What files does this package have? i.e., pcheckfiles
+alias pql='pacman -Ql'                               # What files does this package have? i.e., pcheckfiles
+alias pqo='pacman -Qo'                               # Who owns this package? i.e., pcheckowner
+alias pcheckowner='pacman -Qo'                       # Who owns this package? i.e., pcheckowner
 alias pr_unneeded='sudo pacman -Rns $(pacman -Qdtq)' # Uninstall unneeded packages
-alias pq='pacman -Q' # List all installed packages on the system along with their version numbers.
-alias pqu='pacman -Qu' # List all packages that have updates available in the repositories.
-alias pqdt='pacman -Qdt' # List orphaned packages, i.e., packages that were installed as dependencies but are no longer required by any explicitly installed package. List unneeded packages
-alias pqe='pacman -Qe' # Explicitly installed packages are the ones that you specifically requested to be installed. It excludes packages that were installed as dependencies of other packages.
-alias pqii='pacman -Qii' # Extended information about explicitly installed packages.
-alias pat='pactree' # What does pkg depend on?
-alias patr='pactree -r' # What depends on pkg?
-alias pss='pacman -Ss' # Search for a package or packages in the repositories.
-alias psi='pacman -Si' # Display information about a given package located in the repositories.
-alias pqs='pacman -Qs' # Search for a package or packages in the local database.
+alias pq='pacman -Q'                                 # List all installed packages on the system along with their version numbers.
+alias pqu='pacman -Qu'                               # List all packages that have updates available in the repositories.
+alias pqdt='pacman -Qdt'                             # List orphaned packages, i.e., packages that were installed as dependencies but are no longer required by any explicitly installed package. List unneeded packages
+alias pqe='pacman -Qe'                               # Explicitly installed packages are the ones that you specifically requested to be installed. It excludes packages that were installed as dependencies of other packages.
+alias pqii='pacman -Qii'                             # Extended information about explicitly installed packages.
+alias pat='pactree'                                  # What does pkg depend on?
+alias patr='pactree -r'                              # What depends on pkg?
+alias pss='pacman -Ss'                               # Search for a package or packages in the repositories.
+alias psi='pacman -Si'                               # Display information about a given package located in the repositories.
+alias pqs='pacman -Qs'                               # Search for a package or packages in the local database.
 
-# PYTHON 
+# PYTHON
 
 alias py="python3"
 alias pipf="pip freeze"

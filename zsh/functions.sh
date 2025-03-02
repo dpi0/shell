@@ -109,66 +109,66 @@ f() {
   fi
 }
 
-s() {
-  search_term="$1"
-
-  SELECTED_FILE=$(
-    fd --type f --hidden --follow --color=always \
-      --exclude ".local" \
-      --exclude ".rustup" \
-      --exclude "node_modules" \
-      --exclude ".cargo" \
-      --exclude ".continue" \
-      --exclude ".cargo" \
-      --exclude ".mozilla" \
-      --exclude "go/pkg/mod" \
-      --exclude "Code/User" \
-      --exclude ".git" \
-      --exclude ".npm" \
-      --exclude ".cache" |
-      fzf \
-        --query="$search_term" \
-        --exact \
-        --extended \
-        --preview="bat --style=numbers --color=always --line-range :500 {}" \
-        --preview-window="right:50%" \
-        --ansi
-  )
-
-  if [ -n "$SELECTED_FILE" ]; then
-    file_extension="${SELECTED_FILE##*.}"
-
-    case "$file_extension" in
-      "pdf")
-        evince "$SELECTED_FILE"
-        ;;
-      "png" | "jpg" | "jpeg")
-        loupe "$SELECTED_FILE"
-        ;;
-      "mp4" | "mkv" | "gif")
-        mpv "$SELECTED_FILE"
-        ;;
-      "txt" | "py" | "rs" | "go" | "md")
-        if command -v nvim &> /dev/null; then
-          nvim "$SELECTED_FILE"
-        else
-          vim "$SELECTED_FILE"
-        fi
-        ;;
-      *)
-        if command -v nvim &> /dev/null; then
-          nvim "$SELECTED_FILE"
-        else
-          vim "$SELECTED_FILE"
-        fi
-        ;;
-    esac
-
-    # Print the selected file value to stdout
-    echo "$SELECTED_FILE" | wl-copy
-    echo "$SELECTED_FILE"
-  fi
-}
+# s() {
+#   search_term="$1"
+#
+#   SELECTED_FILE=$(
+#     fd --type f --hidden --follow --color=always \
+#       --exclude ".local" \
+#       --exclude ".rustup" \
+#       --exclude "node_modules" \
+#       --exclude ".cargo" \
+#       --exclude ".continue" \
+#       --exclude ".cargo" \
+#       --exclude ".mozilla" \
+#       --exclude "go/pkg/mod" \
+#       --exclude "Code/User" \
+#       --exclude ".git" \
+#       --exclude ".npm" \
+#       --exclude ".cache" |
+#       fzf \
+#         --query="$search_term" \
+#         --exact \
+#         --extended \
+#         --preview="bat --style=numbers --color=always --line-range :500 {}" \
+#         --preview-window="right:50%" \
+#         --ansi
+#   )
+#
+#   if [ -n "$SELECTED_FILE" ]; then
+#     file_extension="${SELECTED_FILE##*.}"
+#
+#     case "$file_extension" in
+#       "pdf")
+#         evince "$SELECTED_FILE"
+#         ;;
+#       "png" | "jpg" | "jpeg")
+#         loupe "$SELECTED_FILE"
+#         ;;
+#       "mp4" | "mkv" | "gif")
+#         mpv "$SELECTED_FILE"
+#         ;;
+#       "txt" | "py" | "rs" | "go" | "md")
+#         if command -v nvim &> /dev/null; then
+#           nvim "$SELECTED_FILE"
+#         else
+#           vim "$SELECTED_FILE"
+#         fi
+#         ;;
+#       *)
+#         if command -v nvim &> /dev/null; then
+#           nvim "$SELECTED_FILE"
+#         else
+#           vim "$SELECTED_FILE"
+#         fi
+#         ;;
+#     esac
+#
+#     # Print the selected file value to stdout
+#     echo "$SELECTED_FILE" | wl-copy
+#     echo "$SELECTED_FILE"
+#   fi
+# }
 
 # cd into dir
 ff() {
@@ -204,42 +204,42 @@ ff() {
   fi
 }
 
-ss() {
-  local search_term
-  search_term="$1"
-
-  local selected_file
-  selected_file=$(
-    fd --type f --hidden --follow --color=always \
-      --exclude ".local" \
-      --exclude ".rustup" \
-      --exclude "node_modules" \
-      --exclude ".cargo" \
-      --exclude ".continue" \
-      --exclude ".cargo" \
-      --exclude ".mozilla" \
-      --exclude "go/pkg/mod" \
-      --exclude "Code/User" \
-      --exclude ".git" \
-      --exclude ".npm" \
-      --exclude ".cache" |
-      fzf \
-        --query="$search_term" \
-        --exact \
-        --extended \
-        --preview="bat --style=numbers --color=always --line-range :500 {}" \
-        --preview-window="right:50%" \
-        --ansi
-  )
-
-  if [[ -n $selected_file ]]; then
-    local parent_dir
-    parent_dir=$(dirname "$selected_file")
-    cd "$parent_dir" || echo "Failed to change directory"
-  else
-    echo "No file selected"
-  fi
-}
+# ss() {
+#   local search_term
+#   search_term="$1"
+#
+#   local selected_file
+#   selected_file=$(
+#     fd --type f --hidden --follow --color=always \
+#       --exclude ".local" \
+#       --exclude ".rustup" \
+#       --exclude "node_modules" \
+#       --exclude ".cargo" \
+#       --exclude ".continue" \
+#       --exclude ".cargo" \
+#       --exclude ".mozilla" \
+#       --exclude "go/pkg/mod" \
+#       --exclude "Code/User" \
+#       --exclude ".git" \
+#       --exclude ".npm" \
+#       --exclude ".cache" |
+#       fzf \
+#         --query="$search_term" \
+#         --exact \
+#         --extended \
+#         --preview="bat --style=numbers --color=always --line-range :500 {}" \
+#         --preview-window="right:50%" \
+#         --ansi
+#   )
+#
+#   if [[ -n $selected_file ]]; then
+#     local parent_dir
+#     parent_dir=$(dirname "$selected_file")
+#     cd "$parent_dir" || echo "Failed to change directory"
+#   else
+#     echo "No file selected"
+#   fi
+# }
 
 remove_variable_from_history() {
   local var_to_remove="$1"
@@ -393,3 +393,20 @@ _note_autocomplete() {
 
 # Bind autocompletion to the note function
 compdef _note_autocomplete note
+
+function sesh-sessions() {
+  {
+    exec < /dev/tty
+    exec <&1
+    local session
+    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+    zle reset-prompt > /dev/null 2>&1 || true
+    [[ -z "$session" ]] && return
+    sesh connect $session
+  }
+}
+
+zle -N sesh-sessions
+bindkey -M emacs '\es' sesh-sessions
+bindkey -M vicmd '\es' sesh-sessions
+bindkey -M viins '\es' sesh-sessions
