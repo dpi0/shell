@@ -13,6 +13,11 @@ use = "yazi-rs/plugins:chmod"
 rev = "5186af7"
 hash = "f28138c2e11e87962b66d583fef724c3"
 
+[[plugin.deps]]
+use = "Lil-Dank/lazygit"
+rev = "9f924e3"
+hash = "2b0c33928986f126d5c5a4cac31a6b46"
+
 [[flavor.deps]]
 use = "gosxrgxx/flexoki-dark"
 rev = "65ba744"
