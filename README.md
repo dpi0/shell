@@ -1,2 +1,2 @@
-# zsh
-zsh configuration
+# sh
+simple shell configuration
