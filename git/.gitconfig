@@ -1,0 +1,50 @@
+[user]
+	name = dpi0
+	email = dpi0.dev@proton.me
+	signingkey = 2E13AF5C594A51F1 
+
+[core]
+        pager = delta
+        editor = nvim
+
+; With that setting, when a merge conflict is encountered, delta will display diffs between the ancestral commit and each of the two merge parents:
+[merge]
+        conflictstyle = diff3
+
+[interactive]
+        diffFilter = delta --color-only --features=interactive
+
+[delta]
+        features = decorations
+        line-numbers = true
+        side-by-side = true
+        true-color = always
+        ; To format file links for opening in VSCode from other terminal emulators, use the VSCode URL handler
+        hyperlinks = true
+        hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+        ;
+[delta "interactive"]
+        keep-plus-minus-markers = false
+
+[delta "decorations"]
+        commit-decoration-style = blue ol
+        commit-style = raw
+        file-style = omit
+        hunk-header-decoration-style = blue box
+        hunk-header-file-style = red
+        hunk-header-line-number-style = "#067a00"
+        hunk-header-style = file line-number syntax
+
+[credential "https://github.com"]
+        helper = 
+        helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+        helper = 
+        helper = !/usr/bin/gh auth git-credential
+
+[init]
+        defaultBranch = main
+
+[commit]
+	gpgSign = true

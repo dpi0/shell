@@ -1,2 +1,3 @@
 # sh
-simple shell configuration
+
+shell configuration
