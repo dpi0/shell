@@ -1,5 +1,6 @@
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach -t default || tmux new -s default
+    # -u force UTF-8 mode (did this for debian)
+    tmux -u attach -t default || tmux -u new -s default
 fi
 
 # Change prompt if the hostname is not arch
