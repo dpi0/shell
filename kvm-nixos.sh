@@ -38,3 +38,7 @@ cp "${CLONE_LOCATION}/nixos/configuration.nix" "/mnt/etc/nixos/"
 
 # Install NixOS
 nixos-install --root /mnt --no-root-passwd
+
+# Finish
+umount -R /mnt
+reboot
