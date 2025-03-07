@@ -3,7 +3,7 @@
 # enables automatic exit from a script when a command fails
 set -e
 
-DISK="/dev/$(lsblk -nd --output NAME | head -n1)"
+DISK="/dev/vda"
 HOSTNAME="kvm-arch"
 LOCALE_LANG_COMPLETE="en_US.UTF-8 UTF-8"
 LOCALE_LANG="en_US.UTF-8"
