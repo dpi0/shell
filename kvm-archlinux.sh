@@ -18,6 +18,14 @@ USER_PASSWORD="user"
 check_root() { [[ $(id -u) -eq 0 ]] || { echo "ERROR: Run this script as root"; exit 1; }; }
 check_uefi() { [[ -d /sys/firmware/efi ]] || { echo "ERROR: UEFI required"; exit 1; }; }
 
+echo "   ###    ########   ######  ##     ##    ##       #### ##    ## ##     ## ##     ## ";
+echo "  ## ##   ##     ## ##    ## ##     ##    ##        ##  ###   ## ##     ##  ##   ##  ";
+echo " ##   ##  ##     ## ##       ##     ##    ##        ##  ####  ## ##     ##   ## ##   ";
+echo "##     ## ########  ##       #########    ##        ##  ## ## ## ##     ##    ###    ";
+echo "######### ##   ##   ##       ##     ##    ##        ##  ##  #### ##     ##   ## ##   ";
+echo "##     ## ##    ##  ##    ## ##     ##    ##        ##  ##   ### ##     ##  ##   ##  ";
+echo "##     ## ##     ##  ######  ##     ##    ######## #### ##    ##  #######  ##     ## ";
+
 preliminary_setup() {
   setfont "$FONT"
   loadkeys "$KEYMAP"
