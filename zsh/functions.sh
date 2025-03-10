@@ -79,96 +79,20 @@ f() {
     file_extension="${SELECTED_FILE##*.}"
 
     case "$file_extension" in
-      "pdf")
-        evince "$SELECTED_FILE"
-        ;;
-      "txt" | "py" | "rs" | "go" | "md")
-        if command -v nvim &> /dev/null; then
-          nvim "$SELECTED_FILE"
-        else
-          vim "$SELECTED_FILE"
-        fi
-        ;;
-      *)
-        if command -v nvim &> /dev/null; then
-          nvim "$SELECTED_FILE"
-        else
-          vim "$SELECTED_FILE"
-        fi
-        ;;
+      pdf) evince "$SELECTED_FILE" ;;
+      jpg | jpeg | png | gif | bmp | webp) (command -v loupe &> /dev/null && loupe "$SELECTED_FILE") || (command -v org.kde.gwenview &> /dev/null && org.kde.gwenview "$SELECTED_FILE") ;;
+      mp4 | mkv | avi | webm) mpv "$SELECTED_FILE" ;;
+      txt | py | rs | go | md) (command -v nvim &> /dev/null && nvim "$SELECTED_FILE") || vim "$SELECTED_FILE" ;;
+      *) (command -v nvim &> /dev/null && nvim "$SELECTED_FILE") || vim "$SELECTED_FILE" ;;
     esac
 
-    # Check if wl-copy is installed
-    if command -v wl-copy &> /dev/null; then
-      # Print the selected file value to clipboard
-      echo "$SELECTED_FILE" | wl-copy
-    fi
+    # Copy file path to clipboard if wl-copy is available
+    command -v wl-copy &> /dev/null && echo "$SELECTED_FILE" | wl-copy
 
-    # Print the selected file value to stdout
+    # Print the file path
     echo "$SELECTED_FILE"
   fi
 }
-
-# s() {
-#   search_term="$1"
-#
-#   SELECTED_FILE=$(
-#     fd --type f --hidden --follow --color=always \
-#       --exclude ".local" \
-#       --exclude ".rustup" \
-#       --exclude "node_modules" \
-#       --exclude ".cargo" \
-#       --exclude ".continue" \
-#       --exclude ".cargo" \
-#       --exclude ".mozilla" \
-#       --exclude "go/pkg/mod" \
-#       --exclude "Code/User" \
-#       --exclude ".git" \
-#       --exclude ".npm" \
-#       --exclude ".cache" |
-#       fzf \
-#         --query="$search_term" \
-#         --exact \
-#         --extended \
-#         --preview="bat --style=numbers --color=always --line-range :500 {}" \
-#         --preview-window="right:50%" \
-#         --ansi
-#   )
-#
-#   if [ -n "$SELECTED_FILE" ]; then
-#     file_extension="${SELECTED_FILE##*.}"
-#
-#     case "$file_extension" in
-#       "pdf")
-#         evince "$SELECTED_FILE"
-#         ;;
-#       "png" | "jpg" | "jpeg")
-#         loupe "$SELECTED_FILE"
-#         ;;
-#       "mp4" | "mkv" | "gif")
-#         mpv "$SELECTED_FILE"
-#         ;;
-#       "txt" | "py" | "rs" | "go" | "md")
-#         if command -v nvim &> /dev/null; then
-#           nvim "$SELECTED_FILE"
-#         else
-#           vim "$SELECTED_FILE"
-#         fi
-#         ;;
-#       *)
-#         if command -v nvim &> /dev/null; then
-#           nvim "$SELECTED_FILE"
-#         else
-#           vim "$SELECTED_FILE"
-#         fi
-#         ;;
-#     esac
-#
-#     # Print the selected file value to stdout
-#     echo "$SELECTED_FILE" | wl-copy
-#     echo "$SELECTED_FILE"
-#   fi
-# }
 
 # cd into dir
 ff() {
@@ -203,43 +127,6 @@ ff() {
     echo "No file selected"
   fi
 }
-
-# ss() {
-#   local search_term
-#   search_term="$1"
-#
-#   local selected_file
-#   selected_file=$(
-#     fd --type f --hidden --follow --color=always \
-#       --exclude ".local" \
-#       --exclude ".rustup" \
-#       --exclude "node_modules" \
-#       --exclude ".cargo" \
-#       --exclude ".continue" \
-#       --exclude ".cargo" \
-#       --exclude ".mozilla" \
-#       --exclude "go/pkg/mod" \
-#       --exclude "Code/User" \
-#       --exclude ".git" \
-#       --exclude ".npm" \
-#       --exclude ".cache" |
-#       fzf \
-#         --query="$search_term" \
-#         --exact \
-#         --extended \
-#         --preview="bat --style=numbers --color=always --line-range :500 {}" \
-#         --preview-window="right:50%" \
-#         --ansi
-#   )
-#
-#   if [[ -n $selected_file ]]; then
-#     local parent_dir
-#     parent_dir=$(dirname "$selected_file")
-#     cd "$parent_dir" || echo "Failed to change directory"
-#   else
-#     echo "No file selected"
-#   fi
-# }
 
 remove_variable_from_history() {
   local var_to_remove="$1"
