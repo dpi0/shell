@@ -1,5 +1,5 @@
 require("core.options")
-require("core.keymaps")
+require("core.binds")
 require("core.snippets")
 require("core.autocmd")
 
@@ -33,6 +33,13 @@ local plugins = {
   require("plugins.oil"), -- File explorer integration.
   require("plugins.todo-comments"), -- Highlights codes, comments etc
   require("plugins.which-key"), -- Displays available keybindings.
+  require("plugins.todo"), -- Todo.
+  require("plugins.yazi"), -- Yazi.
+  require("plugins.lazygit"), -- Lazygit.
+  require("plugins.diff"), -- Better diff (than gitsigns).
+  require("plugins.surround"), -- Surround.
+  require("plugins.flash-jump"), -- Jump quickly to text.
+  -- require("plugins.fold"), -- Modern code folding.
 }
 
 -- Conditionally add if hostname is "arch"
@@ -43,6 +50,8 @@ if hostname == "arch" then
   table.insert(plugins, require("plugins.treesitter")) -- Better syntax highlighting and code understanding.
   table.insert(plugins, require("plugins.autocompletion")) -- Autocompletion support.
   table.insert(plugins, require("plugins.none-ls-formatter")) -- Code formatting.
+  table.insert(plugins, require("plugins.screenshot")) -- Screenshot code snippet.
+  table.insert(plugins, require("plugins.markdown")) -- Markdown render.
 end
 
 -- Load all plugins at once

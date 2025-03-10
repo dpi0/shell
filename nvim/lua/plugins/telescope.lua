@@ -142,10 +142,8 @@ return {
       builtin.find_files({ cwd = vim.fn.stdpath("config") })
     end, { desc = "Find Neovim files" })
 
-    -- Search in /data/
-    vim.keymap.set("n", "<leader>fd", function()
-      builtin.find_files({ cwd = "/data/" })
-    end, { desc = "Find files in /data/" })
+    -- Get the list of themes and preview them for the current session
+    vim.keymap.set("n", "<leader>fe", builtin.colorscheme, { desc = "Preview Themes" })
 
     -- Search in /
     vim.keymap.set("n", "<leader>fr", function()

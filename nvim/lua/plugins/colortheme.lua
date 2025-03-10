@@ -1,53 +1,32 @@
 return {
-  -- "shaunsingh/nord.nvim",
-  "askfiy/visual_studio_code",
+  "rebelot/kanagawa.nvim",
   lazy = false,
   priority = 1000,
   config = function()
-    -- Example config in lua
-    -- vim.g.nord_contrast = true
-    -- vim.g.nord_borders = false
-    -- vim.g.nord_disable_background = true
-    -- vim.g.nord_italic = false
-    -- vim.g.nord_uniform_diff_background = true
-    -- vim.g.nord_bold = false
-
-    -- Load the colorscheme
-    -- require("nord").set()
-    -- require("visual_studio_code").set()
-
-    vim.cmd([[colorscheme visual_studio_code]])
-    require("visual_studio_code").setup({
-      transparent = true,
+    vim.cmd([[colorscheme kanagawa]])
+    require("kanagawa").setup({
+      compile = false, -- enable compiling the colorscheme
+      undercurl = true, -- enable undercurls
+      commentStyle = { italic = true },
+      functionStyle = {},
+      keywordStyle = { italic = true },
+      statementStyle = { bold = true },
+      typeStyle = {},
+      transparent = false, -- do not set background color
+      dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+      terminalColors = true, -- define vim.g.terminal_color_{0,17}
+      colors = { -- add/modify theme and palette colors
+        palette = {},
+        theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+      },
+      overrides = function(colors) -- add/modify highlights
+        return {}
+      end,
+      theme = "wave", -- Load "wave" theme when 'background' option is not set
+      background = { -- map the value of 'background' option to a theme
+        dark = "dragon", -- try "dragon" !
+        light = "lotus",
+      },
     })
-
-    -- Toggle background transparency
-    -- local bg_transparent = true
-
-    -- local toggle_transparency = function()
-    --   bg_transparent = not bg_transparent
-    --   vim.g.nord_disable_background = bg_transparent
-    --   -- vim.cmd([[colorscheme nord]])
-    --   vim.cmd([[colorscheme visual_studio_code]])
-    -- end
-    --
-    -- vim.keymap.set(
-    --   "n",
-    --   "<leader>bg",
-    --   toggle_transparency,
-    --   { noremap = true, silent = true, desc = "Toggle transparency" }
-    -- )
   end,
 }
-
--- return {
---   "askfiy/visual_studio_code",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     vim.cmd([[colorscheme visual_studio_code]])
---     require("visual_studio_code").setup({
---       transparent = true,
---     })
---   end,
--- }

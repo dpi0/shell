@@ -67,6 +67,17 @@ opt.hlsearch = true -- Highlight search results
 opt.spell = true -- Enable spell checking
 opt.spelllang = "en_us" -- Set spell check language
 
+-- Code Folding
+-- https://reddit.dpi0.cloud/r/neovim/comments/1behv16/help_with_configuring_this_plugin_nvimufo/
+opt.foldmethod = "expr"
+-- :h vim.treesitter.foldexpr()
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- ref: https://github.com/neovim/neovim/pull/20750
+opt.foldtext = ""
+opt.fillchars:append("fold: ")
+-- Open all folds by default, zm is not available
+opt.foldlevelstart = 99
+
 -- Miscellaneous
 vim.g.have_nerd_font = true -- Enable NERD font compatibility
 opt.backspace = "indent,eol,start" -- Allow backspacing over everything

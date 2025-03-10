@@ -3,8 +3,8 @@
 -- ===========================
 
 -- Set leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 
 -- Disable spacebar's default behavior
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -161,4 +161,9 @@ if vim.fn.executable("taplo") == 1 then
   vim.bo.formatprg = "taplo fmt -"
 end
 
-vim.api.nvim_set_keymap("n", "A-C-f", "ggVGgq", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "A-C-f", "ggVGgq", { noremap = true, silent = true })
+
+bind("n", "<A-t>", ":Todo<CR>", "Todo")
+
+bind("n", "<leader>hdo", ":DiffviewOpen<CR>", "Diff Open")
+bind("n", "<leader>hdc", ":DiffviewClose<CR>", "Diff Close")
