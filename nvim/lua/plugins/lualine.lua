@@ -40,7 +40,7 @@ return {
     require("lualine").setup({
       options = {
         icons_enabled = true,
-        theme = "nord", -- Set theme based on environment variable
+        theme = "kanagawa", -- Set theme based on environment variable
         -- Some useful glyphs:
         -- https://www.nerdfonts.com/cheat-sheet
         --        
@@ -66,7 +66,7 @@ return {
         lualine_z = {},
       },
       tabline = {},
-      extensions = { "fugitive" },
+      extensions = { "fugitive", "quickfix", "fzf", "lazy", "mason", "nvim-dap-ui", "oil", "trouble" },
     })
   end,
 }

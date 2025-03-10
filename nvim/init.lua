@@ -18,7 +18,7 @@ local hostname = vim.loop.os_gethostname()
 
 -- Define the base plugins
 local plugins = {
-  require("plugins.alpha"), -- Startup dashboard for Neovim.
+  -- require("plugins.alpha"), -- Startup dashboard for Neovim.
   require("plugins.autopairs"), -- Auto-closes brackets and quotes.
   require("plugins.auto-session"), -- Automatically restore sessions.
   require("plugins.colorizer"), -- Highlights color codes in files.
@@ -35,11 +35,12 @@ local plugins = {
   require("plugins.which-key"), -- Displays available keybindings.
   require("plugins.todo"), -- Todo.
   require("plugins.yazi"), -- Yazi.
-  require("plugins.lazygit"), -- Lazygit.
+  -- require("plugins.lazygit"), -- Lazygit.
   require("plugins.diff"), -- Better diff (than gitsigns).
   require("plugins.surround"), -- Surround.
   require("plugins.flash-jump"), -- Jump quickly to text.
   -- require("plugins.fold"), -- Modern code folding.
+  require("plugins.snacks"), -- QoL
 }
 
 -- Conditionally add if hostname is "arch"

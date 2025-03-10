@@ -165,5 +165,5 @@ end
 
 bind("n", "<A-t>", ":Todo<CR>", "Todo")
 
-bind("n", "<leader>hdo", ":DiffviewOpen<CR>", "Diff Open")
-bind("n", "<leader>hdc", ":DiffviewClose<CR>", "Diff Close")
+bind("n", "<leader>dfo", ":DiffviewOpen<CR>", "Diff Open")
+bind("n", "<leader>dfc", ":DiffviewClose<CR>", "Diff Close")
